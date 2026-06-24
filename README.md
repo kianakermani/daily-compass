@@ -19,7 +19,7 @@ This project is currently in early development as a personal MVP.
 ### Frontend
 
 - React
-- JavaScript
+- TypeScript
 - Vite
 
 ### Backend
