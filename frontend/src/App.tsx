@@ -1,284 +1,61 @@
-import { useState, useEffect, type ReactNode } from "react";
+// React
+import { useEffect, useState } from "react";
+
+// Router
 import {
   createBrowserRouter,
-  RouterProvider,
-  Outlet,
   Link,
+  Outlet,
+  RouterProvider,
   useLocation,
 } from "react-router-dom";
+
+// Icons
 import {
-  Smile,
-  Meh,
-  Heart,
-  CloudRain,
-  Zap,
-  Sun,
-  Coffee,
-  Sparkles,
-  Save,
-  Compass,
   Calendar,
-  Target,
-  Plus,
-  Trash2,
   CheckCircle2,
   Circle,
+  Compass,
+  Plus,
+  Save,
+  Smile,
+  Target,
+  Trash2,
   TrendingUp,
 } from "lucide-react";
+
+// Charts
 import {
-  LineChart,
+  CartesianGrid,
   Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
 } from "recharts";
-import { Toaster, toast } from "sonner";
 
-// ─── Minimal UI primitives (no shadcn/ui needed) ──────────────────────────────
+// Notifications
+import { toast, Toaster } from "sonner";
 
-function Card({
-  children,
-  className = "",
-}: {
-  children: ReactNode;
-  className?: string;
-}) {
-  return (
-    <div
-      className={`rounded-2xl border border-slate-200 shadow-sm ${className}`}
-    >
-      {children}
-    </div>
-  );
-}
+// Components
+import Button from "./components/Button";
+import Card from "./components/Card";
+import Checkbox from "./components/Checkbox";
+import Input from "./components/Input";
+import Label from "./components/Label";
+import Progress from "./components/Progress";
+import Slider from "./components/Slider";
+import Textarea from "./components/Textarea";
 
-function Button({
-  children,
-  onClick,
-  variant = "default",
-  size = "md",
-  className = "",
-  disabled = false,
-  type = "button",
-}: {
-  children: ReactNode;
-  onClick?: () => void;
-  variant?: "default" | "outline" | "ghost";
-  size?: "sm" | "md" | "lg";
-  className?: string;
-  disabled?: boolean;
-  type?: "button" | "submit" | "reset";
-}) {
-  const base =
-    "inline-flex items-center justify-center rounded-xl font-medium transition-colors focus:outline-none disabled:opacity-50 disabled:pointer-events-none";
-  const variants = {
-    default: "bg-indigo-500 text-white hover:bg-indigo-600",
-    outline:
-      "border border-slate-200 bg-white text-slate-700 hover:bg-slate-50",
-    ghost: "text-slate-600 hover:bg-slate-100",
-  };
-  const sizes = {
-    sm: "px-3 py-1.5 text-sm",
-    md: "px-4 py-2 text-sm",
-    lg: "px-6 py-3 text-base",
-  };
-  return (
-    <button
-      type={type}
-      onClick={onClick}
-      disabled={disabled}
-      className={`${base} ${variants[variant]} ${sizes[size]} ${className}`}
-    >
-      {children}
-    </button>
-  );
-}
+// Types
+import type { CheckinData, Goal } from "./types";
 
-function Input({
-  id,
-  type = "text",
-  placeholder,
-  value,
-  onChange,
-  className = "",
-}: {
-  id?: string;
-  type?: string;
-  placeholder?: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  className?: string;
-}) {
-  return (
-    <input
-      id={id}
-      type={type}
-      placeholder={placeholder}
-      value={value}
-      onChange={onChange}
-      className={`w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-700 placeholder:text-slate-400 focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-100 ${className}`}
-    />
-  );
-}
+// Constants
+import { moodOptions } from "./constants/moodOptions";
+import { navItems } from "./constants/navItems";
 
-function Textarea({
-  id,
-  placeholder,
-  value,
-  onChange,
-  className = "",
-}: {
-  id?: string;
-  placeholder?: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  className?: string;
-}) {
-  return (
-    <textarea
-      id={id}
-      placeholder={placeholder}
-      value={value}
-      onChange={onChange}
-      className={`w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-700 placeholder:text-slate-400 focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-100 resize-none min-h-24 ${className}`}
-    />
-  );
-}
-
-function Slider({
-  value,
-  onValueChange,
-  min,
-  max,
-  step,
-}: {
-  value: number[];
-  onValueChange: (value: number[]) => void;
-  min: number;
-  max: number;
-  step: number;
-}) {
-  return (
-    <input
-      type="range"
-      min={min}
-      max={max}
-      step={step}
-      value={value[0]}
-      onChange={(e) => onValueChange([Number(e.target.value)])}
-      className="w-full accent-indigo-500 cursor-pointer"
-    />
-  );
-}
-
-function Checkbox({
-  id,
-  checked,
-  onCheckedChange,
-}: {
-  id?: string;
-  checked: boolean;
-  onCheckedChange: (checked: boolean) => void;
-}) {
-  return (
-    <input
-      id={id}
-      type="checkbox"
-      checked={checked}
-      onChange={(e) => onCheckedChange(e.target.checked)}
-      className="w-4 h-4 rounded accent-indigo-500 cursor-pointer"
-    />
-  );
-}
-
-function Label({
-  htmlFor,
-  children,
-  className = "",
-}: {
-  htmlFor?: string;
-  children: ReactNode;
-  className?: string;
-}) {
-  return (
-    <label
-      htmlFor={htmlFor}
-      className={`text-sm font-medium text-slate-700 ${className}`}
-    >
-      {children}
-    </label>
-  );
-}
-
-function Progress({ value }: { value: number }) {
-  return (
-    <div className="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
-      <div
-        className="h-2 bg-indigo-500 rounded-full transition-all duration-300"
-        style={{ width: `${Math.min(100, Math.max(0, value))}%` }}
-      />
-    </div>
-  );
-}
-
-// ─── Types ────────────────────────────────────────────────────────────────────
-
-interface CheckinData {
-  date: string;
-  moodScore: number;
-  mainMood: string;
-  isStressed: boolean;
-  isTired: boolean;
-  habits: {
-    water: boolean;
-    walking: boolean;
-    reading: boolean;
-    skincare: boolean;
-  };
-  spending: {
-    amount: string;
-    type: string;
-    financialMood: string;
-  };
-  bestPart: string;
-  worstPart: string;
-  notes: string;
-}
-
-interface Goal {
-  id: string;
-  title: string;
-  description: string;
-  targetDate: string;
-  progress: number;
-  completed: boolean;
-}
-
-// ─── Today Check-in ──────────────────────────────────────────────────────────
-
-const moodOptions = [
-  {
-    value: "joyful",
-    label: "Joyful",
-    icon: Sparkles,
-    color: "text-yellow-500",
-  },
-  { value: "happy", label: "Happy", icon: Smile, color: "text-green-500" },
-  { value: "calm", label: "Calm", icon: Sun, color: "text-blue-400" },
-  {
-    value: "energetic",
-    label: "Energetic",
-    icon: Zap,
-    color: "text-orange-500",
-  },
-  { value: "content", label: "Content", icon: Coffee, color: "text-amber-600" },
-  { value: "neutral", label: "Neutral", icon: Meh, color: "text-slate-500" },
-  { value: "sad", label: "Sad", icon: CloudRain, color: "text-indigo-400" },
-  { value: "anxious", label: "Anxious", icon: Heart, color: "text-red-400" },
-];
-
+//today checkin
 function TodayCheckin() {
   const today = new Date().toISOString().split("T")[0];
   const [data, setData] = useState<CheckinData>({
@@ -559,19 +336,7 @@ function TodayCheckin() {
   );
 }
 
-// ─── History ─────────────────────────────────────────────────────────────────
-
-const moodIcons: Record<string, typeof Smile> = {
-  joyful: Sparkles,
-  happy: Smile,
-  calm: Sun,
-  energetic: Zap,
-  sad: CloudRain,
-  anxious: Heart,
-  neutral: Meh,
-  content: Coffee,
-};
-
+//History
 function History() {
   const [checkins, setCheckins] = useState<CheckinData[]>([]);
 
@@ -706,7 +471,8 @@ function History() {
             </Card>
           ) : (
             checkins.slice(0, 10).map((c) => {
-              const MoodIcon = moodIcons[c.mainMood] ?? Smile;
+              const MoodIcon =
+                moodOptions.find((m) => m.value === c.mainMood)?.icon ?? Smile;
               return (
                 <Card
                   key={c.date}
@@ -780,8 +546,7 @@ function History() {
   );
 }
 
-// ─── Goals ────────────────────────────────────────────────────────────────────
-
+//Goals
 function Goals() {
   const [goals, setGoals] = useState<Goal[]>([]);
   const [isAdding, setIsAdding] = useState(false);
@@ -1124,14 +889,7 @@ function Goals() {
   );
 }
 
-// ─── Layout & Router ──────────────────────────────────────────────────────────
-
-const navItems = [
-  { path: "/", label: "Today", icon: Compass },
-  { path: "/history", label: "History", icon: Calendar },
-  { path: "/goals", label: "Goals", icon: Target },
-];
-
+//Layout & Router
 function Layout() {
   const location = useLocation();
   return (
