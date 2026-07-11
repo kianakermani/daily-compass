@@ -1,0 +1,24 @@
+// Components
+import CheckinCard from "./CheckinCard";
+import EmptyHistory from "./EmptyHistory";
+
+// Types
+import type { CheckinData } from "../../types";
+
+type CheckinListProps = {
+  checkins: CheckinData[];
+};
+
+export default function CheckinList({ checkins }: CheckinListProps) {
+  if (checkins.length === 0) {
+    return <EmptyHistory />;
+  }
+
+  return (
+    <div className="space-y-3">
+      {checkins.slice(0, 10).map((checkin) => (
+        <CheckinCard key={checkin.date} checkin={checkin} />
+      ))}
+    </div>
+  );
+}
