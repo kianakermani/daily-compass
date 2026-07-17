@@ -10,6 +10,7 @@
 - [ ] Multiple Expense Types
 - [ ] Currency support
 - [ ] Form validation
+- [ ] Unsaved changes warning
 
 ---
 
@@ -22,6 +23,7 @@
 - [ ] Delete Check-in
 - [ ] Search
 - [ ] Filters
+- [ ] Mood streak
 - [ ] More charts
 
 ---
@@ -30,6 +32,7 @@
 
 - [ ] Remove duplicate "New Goal" button
 - [ ] Goal categories
+- [ ] Edit goals
 - [ ] Goal archive
 - [ ] Goal statistics
 
