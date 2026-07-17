@@ -12,43 +12,33 @@ import HabitsSection from "../components/checkin/HabitsSection";
 import SpendingSection from "../components/checkin/SpendingSection";
 import DayReflectionSection from "../components/checkin/DayReflectionSection";
 import NotesSection from "../components/checkin/NotesSection";
+import { createDefaultCheckinData } from "../constants/defaultCheckinData";
+import { saveCheckin, loadTodayCheckin } from "../utils/checkinStorage";
 
 // Types
 import type { CheckinData } from "../types";
 
 export default function TodayCheckin() {
   const today = new Date().toISOString().split("T")[0];
-  const [data, setData] = useState<CheckinData>({
-    date: today,
-    moodScore: 5,
-    mainMood: "",
-    isStressed: false,
-    isTired: false,
-    habits: { water: false, walking: false, reading: false, skincare: false },
-    spending: { amount: "", type: "", financialMood: "" },
-    bestPart: "",
-    worstPart: "",
-    notes: "",
-  });
+
+  const [data, setData] = useState<CheckinData>(
+    createDefaultCheckinData(today),
+  );
 
   useEffect(() => {
-    const saved = localStorage.getItem(`checkin-${today}`);
-    if (saved) setData(JSON.parse(saved));
+    const saved = loadTodayCheckin(today);
+
+    if (saved) {
+      setData(saved);
+    }
   }, [today]);
 
   const handleSave = () => {
-    const checkins: CheckinData[] = JSON.parse(
-      localStorage.getItem("checkins") || "[]",
-    );
-    const idx = checkins.findIndex((c) => c.date === today);
-    if (idx >= 0) checkins[idx] = data;
-    else checkins.push(data);
-    localStorage.setItem("checkins", JSON.stringify(checkins));
-    localStorage.setItem(`checkin-${today}`, JSON.stringify(data));
+    saveCheckin(data);
     toast.success("Check-in saved!");
   };
 
-  const set = (patch: Partial<CheckinData>) =>
+  const updateData = (patch: Partial<CheckinData>) =>
     setData((d) => ({ ...d, ...patch }));
 
   return (
@@ -71,7 +61,7 @@ export default function TodayCheckin() {
       <MoodScore
         moodScore={data.moodScore}
         onMoodScoreChange={(value) =>
-          set({
+          updateData({
             moodScore: value,
           })
         }
@@ -80,22 +70,22 @@ export default function TodayCheckin() {
       {/* Main Mood */}
       <MainMood
         mainMood={data.mainMood}
-        onMainMoodChange={(value) => set({ mainMood: value })}
+        onMainMoodChange={(value) => updateData({ mainMood: value })}
       />
 
       {/* Stress & Tiredness */}
       <StressSection
         isStressed={data.isStressed}
         isTired={data.isTired}
-        onStressChange={(value) => set({ isStressed: value })}
-        onTiredChange={(value) => set({ isTired: value })}
+        onStressChange={(value) => updateData({ isStressed: value })}
+        onTiredChange={(value) => updateData({ isTired: value })}
       />
 
       {/* Habits */}
       <HabitsSection
         habits={data.habits}
         onHabitChange={(habit, checked) =>
-          set({
+          updateData({
             habits: {
               ...data.habits,
               [habit]: checked,
@@ -108,7 +98,7 @@ export default function TodayCheckin() {
       <SpendingSection
         spending={data.spending}
         onAmountChange={(value) =>
-          set({
+          updateData({
             spending: {
               ...data.spending,
               amount: value,
@@ -116,7 +106,7 @@ export default function TodayCheckin() {
           })
         }
         onTypeChange={(value) =>
-          set({
+          updateData({
             spending: {
               ...data.spending,
               type: value,
@@ -124,7 +114,7 @@ export default function TodayCheckin() {
           })
         }
         onFinancialMoodChange={(value) =>
-          set({
+          updateData({
             spending: {
               ...data.spending,
               financialMood: value,
@@ -137,14 +127,14 @@ export default function TodayCheckin() {
       <DayReflectionSection
         bestPart={data.bestPart}
         worstPart={data.worstPart}
-        onBestPartChange={(value) => set({ bestPart: value })}
-        onWorstPartChange={(value) => set({ worstPart: value })}
+        onBestPartChange={(value) => updateData({ bestPart: value })}
+        onWorstPartChange={(value) => updateData({ worstPart: value })}
       />
 
       {/* Notes */}
       <NotesSection
         notes={data.notes}
-        onNotesChange={(value) => set({ notes: value })}
+        onNotesChange={(value) => updateData({ notes: value })}
       />
 
       <Button onClick={handleSave} size="lg" className="w-full py-4 text-base">
