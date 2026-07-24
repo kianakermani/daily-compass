@@ -17,14 +17,16 @@ export function getHistoryStats(checkins: CheckinData[]) {
         ).toFixed(1)
       : "—";
 
+  const habitCount = checkins[0] ? Object.keys(checkins[0].habits).length : 0;
+
   const habitPct =
-    checkins.length > 0
+    checkins.length > 0 && habitCount > 0
       ? Math.round(
           (checkins.reduce(
             (sum, c) => sum + Object.values(c.habits).filter(Boolean).length,
             0,
           ) /
-            (checkins.length * 4)) *
+            (checkins.length * habitCount)) *
             100,
         )
       : 0;

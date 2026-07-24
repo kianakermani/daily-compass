@@ -21,9 +21,19 @@ export interface CheckinData {
   isTired: boolean;
   habits: {
     water: boolean;
+    healthyFood: boolean;
+    exercise: boolean;
     walking: boolean;
-    reading: boolean;
+    dancing: boolean;
+    shower: boolean;
     skincare: boolean;
+    selfCare: boolean;
+    meditation: boolean;
+    quietTime: boolean;
+    rest: boolean;
+    reading: boolean;
+    hobby: boolean;
+    sleepEarly: boolean;
   };
   spending: {
     amount: string;
