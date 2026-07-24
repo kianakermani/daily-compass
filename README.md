@@ -1,55 +1,68 @@
 # Daily Compass
 
-Daily Compass is a personal life tracker for reflecting on mood, habits, spending decisions, and meaningful goals.
+> 🚧 This project is actively being developed.
 
-## Project Status
+Daily Compass is a personal life tracker designed to help users reflect on their daily mood, habits, spending decisions, and personal goals.
 
-This project is currently in early development as a personal MVP.
+---
 
-## Main Features
+## ✨ Current Features
 
-- Daily mood check-in
-- Habit tracking
-- Simple spending reflection
-- Monthly saving overview
-- Personal goal tracking
+- Daily Check-ins
+- Mood Tracking
+- Habit Tracking
+- Spending Reflection
+- Goal Management
+- History & Mood Charts
 
-## Tech Stack
+---
+
+## 🛠 Tech Stack
 
 ### Frontend
 
 - React
 - TypeScript
 - Vite
+- React Router
+- Tailwind CSS
+- Recharts
 
-### Backend
+### Planned Backend
 
 - ASP.NET Core Web API
-- C#
-
-### Database
-
-- SQL Server / SQLite
 - Entity Framework Core
+- SQL Server
 
-## MVP Goals
+---
 
-The first version focuses on a simple daily check-in experience:
+## 🚀 Project Status
 
-- Track general mood score
-- Record stress and tiredness
-- Check daily habits
-- Reflect on spending decisions
-- Track progress toward personal goals
+This project is currently under active development.
 
-## Future Ideas
+The current focus is building a polished frontend MVP before implementing authentication and the backend API.
 
-- Weekly and monthly insights
-- Charts and summaries
-- Financial mood patterns
-- Goal progress history
-- Personal tracker assistant
+---
 
-## Author
+## 🗺 Roadmap
 
-Built by [Kiana] (https://github.com/kianakermani).
+Upcoming features include:
+
+- Calendar View
+- Edit & Delete Check-ins
+- Search & Filters
+- Mood Streak
+- Goal Categories
+- Multi-language (English / Persian)
+- RTL / LTR Support
+
+See **ROADMAP.md** for the complete roadmap.
+
+---
+
+## 👩‍💻 Author
+
+Built by **Kiana**
+
+GitHub:
+https://github.com/kianakermani
