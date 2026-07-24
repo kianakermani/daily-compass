@@ -60,6 +60,12 @@ See **ROADMAP.md** for the complete roadmap.
 
 ---
 
+## Live Demo
+
+[https://daily-compass-theta.vercel.app](https://daily-compass-journal.vercel.app/)
+
+---
+
 ## 👩‍💻 Author
 
 Built by **Kiana**
