@@ -1,12 +1,12 @@
 import {
   Sparkles,
   Smile,
-  Sun,
+  Sprout,
   Zap,
   Coffee,
   Meh,
   CloudRain,
-  Heart,
+  CloudLightning,
 } from "lucide-react";
 
 import type { MoodOption } from "../types";
@@ -27,7 +27,7 @@ export const moodOptions: MoodOption[] = [
   {
     value: "calm",
     label: "Calm",
-    icon: Sun,
+    icon: Sprout,
     color: "text-blue-400",
   },
   {
@@ -57,7 +57,7 @@ export const moodOptions: MoodOption[] = [
   {
     value: "anxious",
     label: "Anxious",
-    icon: Heart,
+    icon: CloudLightning,
     color: "text-red-400",
   },
 ];

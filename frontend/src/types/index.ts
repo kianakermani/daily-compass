@@ -16,7 +16,7 @@ export interface NavItem {
 export interface CheckinData {
   date: string;
   moodScore: number;
-  mainMood: string;
+  mainMood: string[];
   isStressed: boolean;
   isTired: boolean;
   habits: {
