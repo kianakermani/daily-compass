@@ -4,7 +4,7 @@ export function createDefaultCheckinData(date: string): CheckinData {
   return {
     date,
     moodScore: 5,
-    mainMood: "",
+    mainMood: [],
     isStressed: false,
     isTired: false,
     habits: {

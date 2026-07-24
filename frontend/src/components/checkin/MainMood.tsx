@@ -1,5 +1,6 @@
 import Card from "../Card";
 import Label from "../Label";
+import { toast } from "sonner";
 
 import { moodOptions } from "../../constants/moodOptions";
 
@@ -12,12 +13,20 @@ export default function MainMood({
   mainMood,
   onMainMoodChange,
 }: MainMoodProps) {
+  const MAX_MOODS = 4;
+
   const toggleMood = (value: string) => {
-    onMainMoodChange(
-      mainMood.includes(value)
-        ? mainMood.filter((mood) => mood !== value)
-        : [...mainMood, value],
-    );
+    if (mainMood.includes(value)) {
+      onMainMoodChange(mainMood.filter((mood) => mood !== value));
+      return;
+    }
+
+    if (mainMood.length >= MAX_MOODS) {
+      toast.warning("You can select up to 4 moods.");
+      return;
+    }
+
+    onMainMoodChange([...mainMood, value]);
   };
 
   return (
