@@ -2,11 +2,10 @@
 
 ## Phase 1 - Core Improvements
 
-- [ ] UI Polish (spacing, sizing, typography, desktop layout)
-- [ ] Mood Score: support 0.25 increments
-- [ ] Main Mood: multiple selection
-- [ ] Main Mood: toggle selection
-- [ ] Expand Habits list
+- [x] Mood Score: support 0.25 increments
+- [x] Main Mood: multiple selection
+- [x] Main Mood: toggle selection
+- [x] Expand Habits list
 - [ ] Better Spending section
 - [ ] Multiple Expense Types
 - [ ] Spending Category
