@@ -19,11 +19,11 @@ export default function MoodScore({
         </Label>
 
         <div className="space-y-3 pt-2">
-          <div className="flex items-center justify-between">
+          <div className="relative flex items-center justify-between mt-1">
             <span className="text-sm text-slate-400">Not great</span>
 
-            <span className="text-3xl font-light text-indigo-600">
-              {moodScore}
+            <span className="absolute left-1/2 -translate-x-1/2 text-3xl font-light text-indigo-600 tabular-nums">
+              {Number(moodScore.toFixed(2))}
             </span>
 
             <span className="text-sm text-slate-400">Amazing</span>
@@ -34,7 +34,7 @@ export default function MoodScore({
             onValueChange={(value) => onMoodScoreChange(value[0])}
             min={1}
             max={10}
-            step={1}
+            step={0.25}
           />
 
           <div className="flex justify-between text-xs text-slate-300 px-0.5">
