@@ -66,3 +66,13 @@
 - [ ] Authentication
 - [ ] User accounts
 - [ ] Cloud deployment
+
+---
+
+### Personalized Experience
+- [ ] Dynamic greeting based on time (Good morning / Good evening)
+- [ ] Welcome back message
+- [ ] Streak celebration
+- [ ] Motivational messages
+- [ ] Last check-in summary
+- [ ] Daily quote
