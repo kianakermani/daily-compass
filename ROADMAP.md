@@ -6,10 +6,10 @@
 - [x] Main Mood: multiple selection
 - [x] Main Mood: toggle selection
 - [x] Expand Habits list
-- [ ] Better Spending section
-- [ ] Multiple Expense Types
-- [ ] Spending Category
-- [ ] Currency support
+- [x] Better Spending section
+- [x] Multiple Expense Types
+- [x] Spending Category
+- [x] Currency support
 - [ ] Form validation
 - [ ] Unsaved changes warning
 
