@@ -37,7 +37,9 @@ export interface CheckinData {
   };
   spending: {
     amount: string;
-    type: string;
+    currency: "USD" | "EUR" | "TOMAN";
+    type: ("necessary" | "emotional")[];
+    categories: string;
     financialMood: string;
   };
   bestPart: string;

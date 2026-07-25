@@ -94,7 +94,6 @@ export default function TodayCheckin() {
         }
       />
 
-      {/* Spending */}
       <SpendingSection
         spending={data.spending}
         onAmountChange={(value) =>
@@ -105,11 +104,27 @@ export default function TodayCheckin() {
             },
           })
         }
+        onCurrencyChange={(value) =>
+          updateData({
+            spending: {
+              ...data.spending,
+              currency: value,
+            },
+          })
+        }
         onTypeChange={(value) =>
           updateData({
             spending: {
               ...data.spending,
               type: value,
+            },
+          })
+        }
+        onCategoriesChange={(value) =>
+          updateData({
+            spending: {
+              ...data.spending,
+              categories: value,
             },
           })
         }

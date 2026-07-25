@@ -25,7 +25,9 @@ export function createDefaultCheckinData(date: string): CheckinData {
     },
     spending: {
       amount: "",
-      type: "",
+      currency: "TOMAN",
+      type: [],
+      categories: "",
       financialMood: "",
     },
     bestPart: "",
