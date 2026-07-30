@@ -21,7 +21,7 @@ export default function Layout() {
             </h1>
           </div>
 
-          <nav className="flex gap-1 bg-white/60 backdrop-blur-sm rounded-2xl p-1 shadow-sm border border-white/80">
+          <nav className="flex gap-1 bg-white/60 rounded-2xl p-1 shadow-sm border border-white/80">
             {navItems.map(({ path, label, icon: Icon }) => {
               const active =
                 path === "/"

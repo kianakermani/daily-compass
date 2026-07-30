@@ -40,7 +40,7 @@ export default function HabitsSection({
   }[];
 
   return (
-    <Card className="p-6 bg-white/80 backdrop-blur-sm">
+    <Card className="p-6 bg-white/80   ">
       <Label className="text-base text-slate-700 mb-4 block">
         Daily habits
       </Label>

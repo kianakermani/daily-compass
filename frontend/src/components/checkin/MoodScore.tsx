@@ -12,7 +12,7 @@ export default function MoodScore({
   onMoodScoreChange,
 }: MoodScoreProps) {
   return (
-    <Card className="p-6 bg-white/80 backdrop-blur-sm">
+    <Card className="p-6 bg-white/80   ">
       <div className="space-y-4">
         <Label className="text-base text-slate-700">
           How are you feeling today?

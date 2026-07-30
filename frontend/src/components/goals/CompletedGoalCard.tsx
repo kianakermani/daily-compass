@@ -14,7 +14,7 @@ export default function CompletedGoalCard({
   onDelete,
 }: CompletedGoalCardProps) {
   return (
-    <Card className="p-5 bg-white/80 backdrop-blur-sm opacity-70">
+    <Card className="p-5 bg-white/80    opacity-70">
       <div className="flex items-start justify-between">
         <div className="flex items-start gap-3">
           <CheckCircle2 className="w-5 h-5 text-green-500 mt-0.5 shrink-0" />

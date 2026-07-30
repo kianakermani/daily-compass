@@ -30,7 +30,7 @@ export default function MainMood({
   };
 
   return (
-    <Card className="p-6 bg-white/80 backdrop-blur-sm">
+    <Card className="p-6 bg-white/80   ">
       <Label className="text-base text-slate-700 mb-4 block">Main mood</Label>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">

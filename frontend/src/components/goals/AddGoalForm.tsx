@@ -24,7 +24,7 @@ export default function AddGoalForm({
   onCancel,
 }: AddGoalFormProps) {
   return (
-    <Card className="p-6 bg-white/80 backdrop-blur-sm">
+    <Card className="p-6 bg-white/80   ">
       <h3 className="text-base font-medium text-slate-700 mb-4">
         Create new goal
       </h3>

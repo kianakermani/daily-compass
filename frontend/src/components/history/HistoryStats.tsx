@@ -14,7 +14,7 @@ export default function HistoryStats({ stats }: HistoryStatsProps) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
       {stats.map(({ label, value, bg, iconColor, Icon }) => (
-        <Card key={label} className="p-5 bg-white/80 backdrop-blur-sm">
+        <Card key={label} className="p-5 bg-white/80   ">
           <div className="flex items-center gap-3">
             <div
               className={`w-10 h-10 rounded-full ${bg} flex items-center justify-center`}

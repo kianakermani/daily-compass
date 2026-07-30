@@ -12,7 +12,7 @@ export default function NotesSection({
   onNotesChange,
 }: NotesSectionProps) {
   return (
-    <Card className="p-6 bg-white/80 backdrop-blur-sm">
+    <Card className="p-6 bg-white/80   ">
       <Label htmlFor="notes" className="text-slate-700 mb-2 block">
         Additional notes
       </Label>

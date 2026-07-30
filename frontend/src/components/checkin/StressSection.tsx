@@ -29,7 +29,7 @@ export default function StressSection({
   ];
 
   return (
-    <Card className="p-6 bg-white/80 backdrop-blur-sm">
+    <Card className="p-6 bg-white/80   ">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         {items.map(({ label, value, onChange }) => (
           <div key={label} className="flex items-center justify-between">

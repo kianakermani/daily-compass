@@ -25,7 +25,7 @@ export default function GoalCard({
     : null;
 
   return (
-    <Card className="p-6 bg-white/80 backdrop-blur-sm">
+    <Card className="p-6 bg-white/80   ">
       <div className="flex items-start justify-between mb-4">
         <div className="flex-1">
           <h4 className="text-base font-medium text-slate-800 mb-1">

@@ -8,7 +8,7 @@ interface EmptyGoalsProps {
 
 export default function EmptyGoals({ onCreateClick }: EmptyGoalsProps) {
   return (
-    <Card className="p-12 bg-white/80 backdrop-blur-sm text-center">
+    <Card className="p-12 bg-white/80    text-center">
       <div className="w-16 h-16 rounded-full bg-indigo-100 flex items-center justify-center mx-auto mb-4">
         <Target className="w-8 h-8 text-indigo-500" />
       </div>

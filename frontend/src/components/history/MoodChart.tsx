@@ -23,7 +23,7 @@ export default function MoodChart({ chartData }: MoodChartProps) {
   if (chartData.length === 0) return null;
 
   return (
-    <Card className="p-6 bg-white/80 backdrop-blur-sm">
+    <Card className="p-6 bg-white/80   ">
       <h3 className="text-base font-medium text-slate-700 mb-4">Mood trend</h3>
 
       <ResponsiveContainer width="100%" height={220}>
