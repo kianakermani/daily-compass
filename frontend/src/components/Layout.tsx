@@ -32,7 +32,7 @@ export default function Layout() {
                 <Link
                   key={path}
                   to={path}
-                  className={`flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
+                  className={`flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium    ${
                     active
                       ? "bg-white text-indigo-600 shadow-sm"
                       : "text-slate-500 hover:text-slate-800 hover:bg-white/50"

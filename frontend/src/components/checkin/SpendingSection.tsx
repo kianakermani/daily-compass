@@ -92,7 +92,7 @@ export default function SpendingSection({
                       key={currency.value}
                       type="button"
                       onClick={() => onCurrencyChange(currency.value)}
-                      className={`flex-1 py-2.5 rounded-xl border-2 text-sm font-medium transition-all ${
+                      className={`cursor-pointer flex-1 py-2.5 rounded-xl border-2 text-sm font-medium    ${
                         isSelected
                           ? "border-indigo-400 bg-indigo-50 text-indigo-700"
                           : "border-slate-200 text-slate-600 hover:border-slate-300"
@@ -121,7 +121,7 @@ export default function SpendingSection({
                   key={type}
                   type="button"
                   onClick={() => handleTypeToggle(type)}
-                  className={`flex-1 py-2.5 rounded-xl border-2 text-sm capitalize transition-all ${
+                  className={`cursor-pointer flex-1 py-2.5 rounded-xl border-2 text-sm capitalize    ${
                     isSelected
                       ? "border-indigo-400 bg-indigo-50 text-indigo-700"
                       : "border-slate-200 text-slate-600 hover:border-slate-300"
@@ -147,7 +147,7 @@ export default function SpendingSection({
             placeholder="e.g., food, transport, clothes..."
             value={spending.categories}
             onChange={(e) => onCategoriesChange(e.target.value)}
-            className="h-24 w-full resize-none overflow-y-auto rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 outline-none transition-all placeholder:text-slate-400 focus:border-indigo-400"
+            className="h-24 w-full resize-none overflow-y-auto rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 outline-none    placeholder:text-slate-400 focus:border-indigo-400"
           />
         </div>
 

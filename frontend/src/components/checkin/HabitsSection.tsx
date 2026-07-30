@@ -54,7 +54,7 @@ export default function HabitsSection({
               key={key}
               type="button"
               onClick={() => onHabitChange(key, !selected)}
-              className={`flex items-center gap-3 rounded-xl border px-3 py-3 text-left transition-all ${
+              className={`cursor-pointer flex items-center gap-3 rounded-xl border px-3 py-3 text-left    ${
                 selected
                   ? "border-indigo-300 bg-indigo-50 text-slate-800 shadow-sm"
                   : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50"

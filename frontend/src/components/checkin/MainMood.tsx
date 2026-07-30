@@ -43,7 +43,7 @@ export default function MainMood({
               key={mood.value}
               type="button"
               onClick={() => toggleMood(mood.value)}
-              className={`p-4 rounded-xl border-2 transition-all text-center ${
+              className={`cursor-pointer p-4 rounded-xl border-2    text-center ${
                 isSelected
                   ? "border-indigo-400 bg-indigo-50"
                   : "border-slate-200 bg-white hover:border-slate-300"
