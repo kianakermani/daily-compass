@@ -10,6 +10,7 @@
 - [x] Multiple Expense Types
 - [x] Spending Category
 - [x] Currency support
+- [x] Optimize UI rendering performance
 - [ ] Form validation
 - [ ] Unsaved changes warning
 
