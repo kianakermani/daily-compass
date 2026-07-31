@@ -10,8 +10,13 @@
 - [x] Multiple Expense Types
 - [x] Spending Category
 - [x] Currency support
-- [ ] Form validation
-- [ ] Unsaved changes warning
+- [x] Optimize UI rendering performance
+- [x] Unsaved changes warning
+- [ ] Profile app with React DevTools Profiler
+- [ ] Add React.memo where profiling shows benefit
+- [ ] Memoize expensive callbacks
+- [ ] Lazy load routes/components
+- [ ] Optimize bundle size
 
 ---
 
