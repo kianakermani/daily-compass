@@ -25,6 +25,8 @@ export default function TodayCheckin() {
     createDefaultCheckinData(today),
   );
 
+  const [isDirty, setIsDirty] = useState(false);
+
   useEffect(() => {
     const saved = loadTodayCheckin(today);
 
@@ -33,13 +35,31 @@ export default function TodayCheckin() {
     }
   }, [today]);
 
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      if (!isDirty) return;
+
+      event.preventDefault();
+      event.returnValue = "";
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [isDirty]);
+
   const handleSave = () => {
     saveCheckin(data);
+    setIsDirty(false);
     toast.success("Check-in saved!");
   };
 
-  const updateData = (patch: Partial<CheckinData>) =>
-    setData((d) => ({ ...d, ...patch }));
+  const updateData = (patch: Partial<CheckinData>) => {
+    setData((prev) => ({ ...prev, ...patch }));
+    setIsDirty(true);
+  };
 
   return (
     <div className="space-y-6">
