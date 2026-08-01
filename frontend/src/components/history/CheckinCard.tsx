@@ -18,7 +18,7 @@ export default function CheckinCard({ checkin }: CheckinCardProps) {
   return (
     <Card className="p-5 bg-white/80    hover:shadow-md transition-shadow">
       <div className="flex gap-4">
-        <div className="flex flex-col items-center gap-1 shrink-0">
+        <div className="flex flex-col items-center gap-1 shrink-0 justify-center">
           <div className="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center gap-1 flex-wrap p-1">
             {checkin.mainMood.length > 0 ? (
               checkin.mainMood.map((mood) => {

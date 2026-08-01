@@ -8,7 +8,7 @@ export default function Layout() {
   const location = useLocation();
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-slate-50 via-blue-50 to-indigo-100">
+    <div className="min-h-screen">
       <div className="max-w-145 mb-2 mx-auto px-4 py-6 md:py-1">
         <header className="mb-6">
           <div className="flex items-center gap-3 mb-5">
