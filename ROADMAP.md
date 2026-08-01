@@ -12,11 +12,6 @@
 - [x] Currency support
 - [x] Optimize UI rendering performance
 - [x] Unsaved changes warning
-- [ ] Profile app with React DevTools Profiler
-- [ ] Add React.memo where profiling shows benefit
-- [ ] Memoize expensive callbacks
-- [ ] Lazy load routes/components
-- [ ] Optimize bundle size
 
 ---
 
@@ -70,6 +65,16 @@
 - [ ] Authentication
 - [ ] User accounts
 - [ ] Cloud deployment
+
+---
+
+## Phase 7 - Performance
+
+- [ ] Profile app with React DevTools Profiler
+- [ ] Add React.memo where profiling shows benefit
+- [ ] Memoize expensive callbacks
+- [ ] Lazy load routes/components
+- [ ] Optimize bundle size
 
 ---
 
