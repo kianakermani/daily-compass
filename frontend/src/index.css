@@ -67,6 +67,29 @@ html {
   scrollbar-gutter: stable;
 }
 
+.checkin-details-scrollbar {
+  scrollbar-color: #c7d2fe transparent;
+  scrollbar-width: thin;
+}
+
+.checkin-details-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.checkin-details-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.checkin-details-scrollbar::-webkit-scrollbar-thumb {
+  background: #c7d2fe;
+  border: 2px solid #fff;
+  border-radius: 999px;
+}
+
+.checkin-details-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #a5b4fc;
+}
+
 body {
   margin: 0;
 }
