@@ -17,9 +17,9 @@
 
 ## Phase 2 - History
 
-- [ ] Redesign Recent Check-ins
+- [x] Redesign Recent Check-ins
+- [x] View Check-in Details in Modal
 - [ ] Calendar view
-- [ ] Check-in details page
 - [ ] Edit Check-in
 - [ ] Delete Check-in
 - [ ] Search
