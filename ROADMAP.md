@@ -19,12 +19,10 @@
 
 - [x] Redesign Recent Check-ins
 - [x] View Check-in Details in Modal
-- [ ] Calendar view
+- [x] Calendar view and streak part
 - [ ] Edit Check-in
 - [ ] Delete Check-in
-- [ ] Search
-- [ ] Filters
-- [ ] Mood streak
+- [ ] Search and Filters
 - [ ] More charts
 
 ---
