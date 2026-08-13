@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Flame, ChevronLeft, ChevronRight } from "lucide-react";
 import Card from "../Card";
+import CheckinDetailsDialog from "./CheckinDetailsDialog";
 
 import type { CheckinData } from "../../types";
 
@@ -40,7 +41,11 @@ export default function CheckinCalendar({
   const today = new Date();
   const [viewYear, setViewYear] = useState(today.getFullYear());
   const [viewMonth, setViewMonth] = useState(today.getMonth());
+  const [selectedCheckin, setSelectedCheckin] = useState<CheckinData | null>(
+    null,
+  );
 
+  const checkinsByDate = new Map(checkins.map((c) => [c.date, c]));
   const checkinDates = new Set(checkins.map((c) => c.date));
   const streak = computeStreak(checkinDates);
 
@@ -67,7 +72,7 @@ export default function CheckinCalendar({
 
   // Build the grid: first day of month offset (Mon=0)
   const firstDay = new Date(viewYear, viewMonth, 1).getDay();
-  // JS: 0=Sun,1=Monâ€¦6=Sat â†’ convert to Mon=0 offset
+
   const offset = (firstDay + 6) % 7;
   const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
 
@@ -148,7 +153,8 @@ export default function CheckinCalendar({
           const mm = String(viewMonth + 1).padStart(2, "0");
           const dd = String(day).padStart(2, "0");
           const dateStr = `${viewYear}-${mm}-${dd}`;
-          const hasCheckin = checkinDates.has(dateStr);
+          const dayCheckin = checkinsByDate.get(dateStr);
+          const hasCheckin = Boolean(dayCheckin);
           const isToday = dateStr === todayStr;
           const isFuture = dateStr > todayStr;
 
@@ -157,11 +163,17 @@ export default function CheckinCalendar({
               key={dateStr}
               className="flex items-center justify-center py-0.5"
             >
-              <div
+              <button
+                type="button"
+                disabled={!hasCheckin}
+                onClick={() => dayCheckin && setSelectedCheckin(dayCheckin)}
+                aria-label={
+                  hasCheckin ? `View check-in for ${dateStr}` : undefined
+                }
                 className={[
                   "w-8 h-8 flex items-center justify-center rounded-full text-xs transition-all ",
                   hasCheckin
-                    ? "bg-indigo-500 text-white font-medium shadow-sm shadow-indigo-200 cursor-pointer"
+                    ? "bg-indigo-500 text-white font-medium shadow-sm shadow-indigo-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:ring-offset-1"
                     : isToday
                       ? "ring-2 ring-indigo-300 ring-offset-1 text-indigo-600 font-medium"
                       : isFuture
@@ -170,7 +182,7 @@ export default function CheckinCalendar({
                 ].join(" ")}
               >
                 {day}
-              </div>
+              </button>
             </div>
           );
         })}
@@ -187,6 +199,13 @@ export default function CheckinCalendar({
           <span className="text-xs text-slate-400">Today</span>
         </div>
       </div>
+
+      {selectedCheckin && (
+        <CheckinDetailsDialog
+          checkin={selectedCheckin}
+          onClose={() => setSelectedCheckin(null)}
+        />
+      )}
     </Card>
   );
 }
