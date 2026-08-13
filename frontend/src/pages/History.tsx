@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import HistoryStats from "../components/history/HistoryStats";
 import MoodChart from "../components/history/MoodChart";
+import CheckinCalendar from "../components/history/CheckinCalendar";
 import CheckinList from "../components/history/CheckinList";
 import { loadCheckins } from "../utils/history";
 import { getHistoryStats } from "../utils/historyStats";
@@ -27,6 +28,8 @@ export default function History() {
       </div>
 
       <HistoryStats stats={stats} />
+
+      <CheckinCalendar checkins={checkins} />
 
       <MoodChart chartData={chartData} />
 
