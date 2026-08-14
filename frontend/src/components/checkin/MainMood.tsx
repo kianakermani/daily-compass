@@ -13,7 +13,7 @@ export default function MainMood({
   mainMood,
   onMainMoodChange,
 }: MainMoodProps) {
-  const MAX_MOODS = 4;
+  const MAX_MOODS = 3;
 
   const toggleMood = (value: string) => {
     if (mainMood.includes(value)) {
@@ -22,7 +22,7 @@ export default function MainMood({
     }
 
     if (mainMood.length >= MAX_MOODS) {
-      toast.warning("You can select up to 4 moods.");
+      toast.warning("You can select up to 3 moods.");
       return;
     }
 
@@ -31,7 +31,7 @@ export default function MainMood({
 
   return (
     <Card className="p-6 bg-white/80   ">
-      <Label className="text-base text-slate-700 mb-4 block">Main mood</Label>
+      <Label className="text-base text-slate-700 mb-4 block">Main moods</Label>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
         {moodOptions.map((mood) => {

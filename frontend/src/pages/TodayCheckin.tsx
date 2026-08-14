@@ -13,13 +13,14 @@ import SpendingSection from "../components/checkin/SpendingSection";
 import DayReflectionSection from "../components/checkin/DayReflectionSection";
 import NotesSection from "../components/checkin/NotesSection";
 import { createDefaultCheckinData } from "../constants/defaultCheckinData";
+import { useTodayDate } from "../hooks/useTodayDate";
 import { saveCheckin, loadTodayCheckin } from "../utils/checkinStorage";
 
 // Types
 import type { CheckinData } from "../types";
 
 export default function TodayCheckin() {
-  const today = new Date().toISOString().split("T")[0];
+  const today = useTodayDate();
 
   const [data, setData] = useState<CheckinData>(
     createDefaultCheckinData(today),
@@ -30,9 +31,8 @@ export default function TodayCheckin() {
   useEffect(() => {
     const saved = loadTodayCheckin(today);
 
-    if (saved) {
-      setData(saved);
-    }
+    setData(saved ?? createDefaultCheckinData(today));
+    setIsDirty(false);
   }, [today]);
 
   useEffect(() => {
@@ -51,7 +51,7 @@ export default function TodayCheckin() {
   }, [isDirty]);
 
   const handleSave = () => {
-    saveCheckin(data);
+    saveCheckin({ ...data, date: today });
     setIsDirty(false);
     toast.success("Check-in saved!");
   };

@@ -4,16 +4,9 @@ import Card from "../Card";
 import CheckinDetailsDialog from "./CheckinDetailsDialog";
 
 import type { CheckinData } from "../../types";
+import { formatLocalDate } from "../../utils/dates";
 
 const WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-
-function formatLocalDate(date: Date): string {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-
-  return `${year}-${month}-${day}`;
-}
 
 function computeStreak(checkinDates: Set<string>): number {
   let streak = 0;
