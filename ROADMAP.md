@@ -1,6 +1,6 @@
 # Daily Compass Roadmap
 
-## Phase 1 - Core Improvements
+## Phase 1 - Today's Check-in & Core Improvements
 
 - [x] Mood Score: support 0.25 increments
 - [x] Main Mood: multiple selection
