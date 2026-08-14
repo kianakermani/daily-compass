@@ -1,6 +1,6 @@
 # Daily Compass Roadmap
 
-## Phase 1 - Core Improvements
+## Phase 1 - Today's Check-in & Core Improvements
 
 - [x] Mood Score: support 0.25 increments
 - [x] Main Mood: multiple selection
@@ -12,6 +12,8 @@
 - [x] Currency support
 - [x] Optimize UI rendering performance
 - [x] Unsaved changes warning
+- [ ] Refactor Mood & Physical/Mental State section (Replace Yes/No toggles with Chip Tags for physical states, balance Main Mood options)
+- [ ] Optimize Habits section (Reduce default list to 8 key habits, add Progress Bar & "Show More" / customization option)
 
 ---
 
@@ -20,6 +22,7 @@
 - [x] Redesign Recent Check-ins
 - [x] View Check-in Details in Modal
 - [x] Calendar view and streak part
+- [ ] Calendar year/month picker navigation (allow direct year/month selection instead of only prev/next buttons)
 - [ ] Edit Check-in
 - [ ] Delete Check-in
 - [ ] Search and Filters
@@ -47,10 +50,10 @@
 
 ---
 
-## Phase 5 - Internationalization
+## Phase 5 - Persian Language & Jalali Calendar
 
 - [ ] Persian language
-- [ ] English language
+- [ ] Solar Hijri (Jalali) calendar support
 - [ ] RTL / LTR support
 - [ ] Language switch
 
