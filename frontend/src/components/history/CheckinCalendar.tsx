@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Flame, ChevronLeft, ChevronRight } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { Flame, ChevronLeft, ChevronRight, ChevronDown } from "lucide-react";
 import Card from "../Card";
 import CheckinDetailsDialog from "./CheckinDetailsDialog";
 
@@ -7,6 +7,20 @@ import type { CheckinData } from "../../types";
 import { formatLocalDate } from "../../utils/dates";
 
 const WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+const MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
 
 function computeStreak(checkinDates: Set<string>): number {
   let streak = 0;
@@ -37,6 +51,8 @@ export default function CheckinCalendar({
   const [selectedCheckin, setSelectedCheckin] = useState<CheckinData | null>(
     null,
   );
+  const [showPicker, setShowPicker] = useState(false);
+  const pickerRef = useRef<HTMLDivElement>(null);
 
   const checkinsByDate = new Map(checkins.map((c) => [c.date, c]));
   const checkinDates = new Set(checkins.map((c) => c.date));
@@ -61,6 +77,27 @@ export default function CheckinCalendar({
       month: "long",
       year: "numeric",
     },
+  );
+
+  // Close the picker when clicking outside of it
+  useEffect(() => {
+    if (!showPicker) return;
+
+    function handleClickOutside(e: MouseEvent) {
+      if (pickerRef.current && !pickerRef.current.contains(e.target as Node)) {
+        setShowPicker(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [showPicker]);
+
+  // Years shown in the picker: a reasonable range around the current year
+  const currentRealYear = today.getFullYear();
+  const yearOptions = Array.from(
+    { length: 11 },
+    (_, i) => currentRealYear - 5 + i,
   );
 
   // Build the grid: first day of month offset (Mon=0)
@@ -110,14 +147,78 @@ export default function CheckinCalendar({
       </div>
 
       {/* Month navigation */}
-      <div className="flex items-center justify-between mb-3">
+      <div className="flex items-center justify-between mb-3 relative">
         <button
           onClick={goBack}
           className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-slate-100 transition-colors text-slate-400 hover:text-slate-600"
         >
           <ChevronLeft className="w-4 h-4" />
         </button>
-        <span className="text-sm font-medium text-slate-600">{monthLabel}</span>
+
+        <div className="relative" ref={pickerRef}>
+          <button
+            type="button"
+            onClick={() => setShowPicker((s) => !s)}
+            className="flex items-center gap-1 text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors px-2 py-1 rounded-lg hover:bg-slate-100"
+          >
+            {monthLabel}
+            <ChevronDown
+              className={`w-3.5 h-3.5 text-slate-400 transition-transform ${showPicker ? "rotate-180" : ""}`}
+            />
+          </button>
+
+          {showPicker && (
+            <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 z-10 bg-white border border-slate-200 rounded-xl shadow-lg p-3 w-56">
+              <div className="mb-2">
+                <select
+                  value={viewMonth}
+                  onChange={(e) => setViewMonth(Number(e.target.value))}
+                  className="w-full text-sm border border-slate-200 rounded-lg px-2 py-1.5 text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-300"
+                >
+                  {MONTHS.map((m, i) => (
+                    <option key={m} value={i}>
+                      {m}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <select
+                  value={viewYear}
+                  onChange={(e) => setViewYear(Number(e.target.value))}
+                  className="w-full text-sm border border-slate-200 rounded-lg px-2 py-1.5 text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-300"
+                >
+                  {yearOptions.map((y) => (
+                    <option key={y} value={y}>
+                      {y}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="flex justify-between mt-3 pt-2 border-t border-slate-100">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setViewYear(today.getFullYear());
+                    setViewMonth(today.getMonth());
+                    setShowPicker(false);
+                  }}
+                  className="text-xs text-indigo-500 hover:text-indigo-600 font-medium"
+                >
+                  Today
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowPicker(false)}
+                  className="text-xs text-slate-400 hover:text-slate-600"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+
         <button
           onClick={goForward}
           className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-slate-100 transition-colors text-slate-400 hover:text-slate-600"
