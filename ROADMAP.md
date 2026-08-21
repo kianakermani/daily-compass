@@ -12,7 +12,7 @@
 - [x] Currency support
 - [x] Optimize UI rendering performance
 - [x] Unsaved changes warning
-- [ ] Refactor Mood & Physical/Mental State section (Replace Yes/No toggles with Chip Tags for physical states, balance Main Mood options)
+- [x] Refactor Mood & Physical/Mental State section (Replace Yes/No toggles with Chip Tags for physical states, balance Main Mood options)
 - [ ] Optimize Habits section (Reduce default list to 8 key habits, add Progress Bar & "Show More" / customization option)
 
 ---
