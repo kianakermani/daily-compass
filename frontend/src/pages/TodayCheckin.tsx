@@ -7,7 +7,7 @@ import Button from "../components/Button";
 
 import MoodScore from "../components/checkin/MoodScore";
 import MainMood from "../components/checkin/MainMood";
-import StressSection from "../components/checkin/StressSection";
+import PhysicalMentalStateSection from "../components/checkin/PhysicalMentalStateSection";
 import HabitsSection from "../components/checkin/HabitsSection";
 import SpendingSection from "../components/checkin/SpendingSection";
 import DayReflectionSection from "../components/checkin/DayReflectionSection";
@@ -93,12 +93,14 @@ export default function TodayCheckin() {
         onMainMoodChange={(value) => updateData({ mainMood: value })}
       />
 
-      {/* Stress & Tiredness */}
-      <StressSection
-        isStressed={data.isStressed}
-        isTired={data.isTired}
-        onStressChange={(value) => updateData({ isStressed: value })}
-        onTiredChange={(value) => updateData({ isTired: value })}
+      {/* Physical & Mental State */}
+      <PhysicalMentalStateSection
+        physicalStates={data.physicalStates}
+        mentalStates={data.mentalStates}
+        sleepQuality={data.sleepQuality}
+        onPhysicalStatesChange={(value) => updateData({ physicalStates: value })}
+        onMentalStatesChange={(value) => updateData({ mentalStates: value })}
+        onSleepQualityChange={(value) => updateData({ sleepQuality: value })}
       />
 
       {/* Habits */}

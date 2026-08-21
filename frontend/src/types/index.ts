@@ -17,8 +17,9 @@ export interface CheckinData {
   date: string;
   moodScore: number;
   mainMood: string[];
-  isStressed: boolean;
-  isTired: boolean;
+  physicalStates: string[];
+  mentalStates: string[];
+  sleepQuality: "good" | "poor" | null;
   habits: {
     water: boolean;
     healthyFood: boolean;

@@ -2,31 +2,55 @@ import { Calendar, Smile, TrendingUp } from "lucide-react";
 import type { CheckinData } from "../types";
 
 export function getHistoryStats(checkins: CheckinData[]) {
-  const chartData = [...checkins].reverse().map((c) => ({
-    date: new Date(c.date + "T12:00:00").toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-    }),
-    mood: c.moodScore,
-  }));
+  // Handle invalid data gracefully
+  if (!Array.isArray(checkins)) {
+    checkins = [];
+  }
+
+  const chartData = [...checkins].reverse().map((c) => {
+    try {
+      const dateStr = c?.date;
+      if (!dateStr) return { date: "Invalid date", mood: c?.moodScore || 0 };
+      
+      const date = new Date(dateStr + "T12:00:00");
+      if (isNaN(date.getTime())) {
+        return { date: "Invalid date", mood: c?.moodScore || 0 };
+      }
+      
+      return {
+        date: date.toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+        }),
+        mood: c?.moodScore || 0,
+      };
+    } catch (error) {
+      return { date: "Error", mood: c?.moodScore || 0 };
+    }
+  });
+
+  // Filter out invalid checkins for calculations
+  const validCheckins = checkins.filter(
+    (c) => c && typeof c.moodScore === "number" && !isNaN(c.moodScore)
+  );
 
   const avgMood =
-    checkins.length > 0
+    validCheckins.length > 0
       ? (
-          checkins.reduce((sum, c) => sum + c.moodScore, 0) / checkins.length
+          validCheckins.reduce((sum, c) => sum + c.moodScore, 0) / validCheckins.length
         ).toFixed(1)
       : "—";
 
-  const habitCount = checkins[0] ? Object.keys(checkins[0].habits).length : 0;
+  const habitCount = validCheckins[0] ? Object.keys(validCheckins[0].habits || {}).length : 0;
 
   const habitPct =
-    checkins.length > 0 && habitCount > 0
+    validCheckins.length > 0 && habitCount > 0
       ? Math.round(
-          (checkins.reduce(
-            (sum, c) => sum + Object.values(c.habits).filter(Boolean).length,
+          (validCheckins.reduce(
+            (sum, c) => sum + Object.values(c.habits || {}).filter(Boolean).length,
             0,
           ) /
-            (checkins.length * habitCount)) *
+            (validCheckins.length * habitCount)) *
             100,
         )
       : 0;

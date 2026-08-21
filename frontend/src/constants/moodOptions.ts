@@ -1,51 +1,45 @@
 import {
-  Sparkles,
-  Smile,
-  Sprout,
-  Zap,
-  Coffee,
-  Meh,
+  PartyPopper,
+  Sun,
+  Sofa,
+  Waves,
+  CircleHelp,
   CloudRain,
-  CloudLightning,
+  Brain,
+  Zap,
 } from "lucide-react";
 
 import type { MoodOption } from "../types";
 
 export const moodOptions: MoodOption[] = [
   {
-    value: "joyful",
-    label: "Joyful",
-    icon: Sparkles,
-    color: "text-yellow-500",
-  },
-  {
     value: "happy",
     label: "Happy",
-    icon: Smile,
+    icon: Sun,
     color: "text-green-500",
   },
   {
     value: "calm",
     label: "Calm",
-    icon: Sprout,
+    icon: Waves,
     color: "text-blue-400",
   },
   {
-    value: "energetic",
-    label: "Energetic",
-    icon: Zap,
-    color: "text-orange-500",
+    value: "joyful",
+    label: "Joyful",
+    icon: PartyPopper,
+    color: "text-yellow-500",
   },
   {
     value: "content",
     label: "Content",
-    icon: Coffee,
+    icon: Sofa,
     color: "text-amber-600",
   },
   {
     value: "neutral",
     label: "Neutral",
-    icon: Meh,
+    icon: CircleHelp,
     color: "text-slate-500",
   },
   {
@@ -57,7 +51,13 @@ export const moodOptions: MoodOption[] = [
   {
     value: "anxious",
     label: "Anxious",
-    icon: CloudLightning,
+    icon: Brain,
     color: "text-red-400",
+  },
+  {
+    value: "angry",
+    label: "Angry",
+    icon: Zap,
+    color: "text-red-600",
   },
 ];

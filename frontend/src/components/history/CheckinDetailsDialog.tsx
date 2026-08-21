@@ -10,10 +10,16 @@ import {
   Sun,
   StickyNote,
   X,
+  Meh,
   type LucideIcon,
 } from "lucide-react";
 
 import { moodOptions } from "../../constants/moodOptions";
+import { 
+  physicalStateOptions, 
+  mentalStateOptions, 
+  sleepOptions 
+} from "../../constants/stateOptions";
 import type { CheckinData } from "../../types";
 import { habitLabels, formatCheckinDate } from "../../utils/checkinDetails";
 
@@ -167,18 +173,92 @@ export default function CheckinDetailsDialog({
                 ) : (
                   <span className="text-sm text-slate-500">Not added</span>
                 )}
+              </div>
+            </DetailSection>
 
-                {checkin.isStressed && (
-                  <span className="px-2.5 py-1 bg-red-50 text-red-600 rounded-full text-xs">
-                    Stressed
-                  </span>
-                )}
+            <DetailSection title="Physical & Mental State">
+              <div className="space-y-3">
+                {/* Physical States */}
+                <div>
+                  <h5 className="text-xs font-medium text-slate-400 mb-2">Physical</h5>
+                  <div className="flex flex-wrap gap-1.5">
+                    {checkin.physicalStates.length > 0 ? (
+                      checkin.physicalStates.map((state) => {
+                        const stateOption = physicalStateOptions.find(
+                          (s) => s.value === state
+                        );
+                        const Icon = stateOption?.icon ?? Meh;
 
-                {checkin.isTired && (
-                  <span className="px-2.5 py-1 bg-orange-50 text-orange-600 rounded-full text-xs">
-                    Tired
-                  </span>
-                )}
+                        return (
+                          <span
+                            key={state}
+                            className="inline-flex items-center gap-1 px-2.5 py-1 bg-green-50 text-green-700 rounded-full text-xs"
+                          >
+                            <Icon className="h-3 w-3 shrink-0" />
+                            {stateOption?.label ?? state}
+                          </span>
+                        );
+                      })
+                    ) : (
+                      <span className="text-sm text-slate-500">Not added</span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Mental States */}
+                <div>
+                  <h5 className="text-xs font-medium text-slate-400 mb-2">Mental</h5>
+                  <div className="flex flex-wrap gap-1.5">
+                    {checkin.mentalStates.length > 0 ? (
+                      checkin.mentalStates.map((state) => {
+                        const stateOption = mentalStateOptions.find(
+                          (s) => s.value === state
+                        );
+                        const Icon = stateOption?.icon ?? Meh;
+
+                        return (
+                          <span
+                            key={state}
+                            className="inline-flex items-center gap-1 px-2.5 py-1 bg-blue-50 text-blue-700 rounded-full text-xs"
+                          >
+                            <Icon className="h-3 w-3 shrink-0" />
+                            {stateOption?.label ?? state}
+                          </span>
+                        );
+                      })
+                    ) : (
+                      <span className="text-sm text-slate-500">Not added</span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Sleep */}
+                <div>
+                  <h5 className="text-xs font-medium text-slate-400 mb-2">Sleep</h5>
+                  <div className="flex flex-wrap gap-1.5">
+                    {checkin.sleepQuality ? (
+                      (() => {
+                        const sleepOption = sleepOptions.find(
+                          (s) => s.value === checkin.sleepQuality
+                        );
+                        const Icon = sleepOption?.icon ?? Meh;
+                        const colorClass = checkin.sleepQuality === "good" ? "bg-green-50 text-green-700" : "bg-red-50 text-red-700";
+
+                        return (
+                          <span
+                            key={checkin.sleepQuality}
+                            className={`inline-flex items-center gap-1 px-2.5 py-1 ${colorClass} rounded-full text-xs`}
+                          >
+                            <Icon className="h-3 w-3 shrink-0" />
+                            {sleepOption?.label ?? checkin.sleepQuality}
+                          </span>
+                        );
+                      })()
+                    ) : (
+                      <span className="text-sm text-slate-500">Not added</span>
+                    )}
+                  </div>
+                </div>
               </div>
             </DetailSection>
 

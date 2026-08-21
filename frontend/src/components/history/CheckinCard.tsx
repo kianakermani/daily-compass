@@ -26,7 +26,7 @@ export default function CheckinCard({ checkin }: CheckinCardProps) {
 
   const completedHabits = useMemo(
     () =>
-      Object.entries(checkin.habits)
+      Object.entries(checkin.habits || {})
         .filter(([, done]) => done)
         .map(([habit]) => habit as keyof CheckinData["habits"]),
     [checkin.habits],
@@ -34,7 +34,7 @@ export default function CheckinCard({ checkin }: CheckinCardProps) {
 
   const visibleHabits = completedHabits.slice(0, 5);
   const hiddenHabitCount = completedHabits.length - visibleHabits.length;
-  const formattedDate = formatCheckinDate(checkin.date);
+  const formattedDate = formatCheckinDate(checkin.date || "");
 
   return (
     <>
@@ -48,7 +48,7 @@ export default function CheckinCard({ checkin }: CheckinCardProps) {
           <MoreHorizontal className="h-5 w-5" />
         </button>
 
-        <div className="space-y-4 pr-9">
+        <div className="space-y-4">
           <div className="flex justify-start text-center">
             <div className="ms-0.5">
               <p className="text-xs font-medium text-slate-400">
@@ -63,7 +63,7 @@ export default function CheckinCard({ checkin }: CheckinCardProps) {
 
           <div className="space-y-2">
             <div className="flex flex-wrap gap-1.5">
-              {checkin.mainMood.map((mood) => {
+              {(checkin.mainMood || []).map((mood) => {
                 const moodOption = moodOptions.find((m) => m.value === mood);
                 const Icon = moodOption?.icon ?? Smile;
 
@@ -77,18 +77,6 @@ export default function CheckinCard({ checkin }: CheckinCardProps) {
                   </span>
                 );
               })}
-
-              {checkin.isStressed && (
-                <span className="px-2.5 py-0.5 bg-red-50 text-red-600 rounded-full text-xs">
-                  Stressed
-                </span>
-              )}
-
-              {checkin.isTired && (
-                <span className="px-2.5 py-0.5 bg-orange-50 text-orange-600 rounded-full text-xs">
-                  Tired
-                </span>
-              )}
             </div>
 
             <div className="flex flex-wrap gap-1.5">
@@ -97,7 +85,7 @@ export default function CheckinCard({ checkin }: CheckinCardProps) {
                   key={habit}
                   className="px-2 py-0.5 bg-green-50 text-green-700 rounded text-xs"
                 >
-                  {habitLabels[habit]}
+                  {habitLabels[habit] || habit}
                 </span>
               ))}
 

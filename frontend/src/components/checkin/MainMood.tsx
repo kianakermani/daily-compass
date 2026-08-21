@@ -31,7 +31,7 @@ export default function MainMood({
 
   return (
     <Card className="p-6 bg-white/80   ">
-      <Label className="text-base text-slate-700 mb-4 block">Main moods</Label>
+      <Label className="text-base text-slate-700 mb-4 block">Main Mood</Label>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
         {moodOptions.map((mood) => {
@@ -43,7 +43,7 @@ export default function MainMood({
               key={mood.value}
               type="button"
               onClick={() => toggleMood(mood.value)}
-              className={`cursor-pointer p-4 rounded-xl border-2    text-center ${
+              className={`cursor-pointer p-4 rounded-xl border-2 text-center transition-colors ${
                 isSelected
                   ? "border-indigo-400 bg-indigo-50"
                   : "border-slate-200 bg-white hover:border-slate-300"

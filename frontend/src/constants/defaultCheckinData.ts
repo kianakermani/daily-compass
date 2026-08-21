@@ -5,8 +5,9 @@ export function createDefaultCheckinData(date: string): CheckinData {
     date,
     moodScore: 5,
     mainMood: [],
-    isStressed: false,
-    isTired: false,
+    physicalStates: [],
+    mentalStates: [],
+    sleepQuality: null,
     habits: {
       water: false,
       healthyFood: false,
