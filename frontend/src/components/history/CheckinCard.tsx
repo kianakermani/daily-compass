@@ -1,5 +1,6 @@
 // Components
 import Card from "../Card";
+import ConfirmDialog from "./ConfirmDialog";
 import CheckinDetailsDialog from "./CheckinDetailsDialog";
 
 // React
@@ -15,14 +16,16 @@ import type { CheckinData } from "../../types";
 import { habitLabels, formatCheckinDate } from "../../utils/checkinDetails";
 
 // Icons
-import { MoreHorizontal, Smile } from "lucide-react";
+import { MoreHorizontal, Smile, Trash2 } from "lucide-react";
 
 type CheckinCardProps = {
   checkin: CheckinData;
+  onDelete: (date: string) => void;
 };
 
-export default function CheckinCard({ checkin }: CheckinCardProps) {
+export default function CheckinCard({ checkin, onDelete }: CheckinCardProps) {
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+  const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
 
   const completedHabits = useMemo(
     () =>
@@ -46,6 +49,15 @@ export default function CheckinCard({ checkin }: CheckinCardProps) {
           className="absolute right-4 cursor-pointer top-4 flex h-8 w-8 items-center justify-center rounded-full text-slate-400 transition hover:bg-slate-100 hover:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-200"
         >
           <MoreHorizontal className="h-5 w-5" />
+        </button>
+
+        <button
+          type="button"
+          aria-label="Delete check-in"
+          onClick={() => setIsDeleteConfirmOpen(true)}
+          className="absolute bottom-3 right-3 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-slate-300 transition hover:bg-red-50 hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-red-100"
+        >
+          <Trash2 className="h-4 w-4" />
         </button>
 
         <div className="space-y-4">
@@ -103,6 +115,20 @@ export default function CheckinCard({ checkin }: CheckinCardProps) {
         <CheckinDetailsDialog
           checkin={checkin}
           onClose={() => setIsDetailsOpen(false)}
+        />
+      )}
+
+      {isDeleteConfirmOpen && (
+        <ConfirmDialog
+          title="Delete check-in"
+          message="Are you sure you want to delete this check-in?"
+          confirmLabel="Delete"
+          intent="danger"
+          onCancel={() => setIsDeleteConfirmOpen(false)}
+          onConfirm={() => {
+            onDelete(checkin.date);
+            setIsDeleteConfirmOpen(false);
+          }}
         />
       )}
     </>

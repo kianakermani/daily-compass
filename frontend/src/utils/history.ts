@@ -98,3 +98,20 @@ export function loadCheckins(): CheckinData[] {
     return [];
   }
 }
+
+export function deleteCheckin(date: string): CheckinData[] {
+  const updatedCheckins = loadCheckins().filter((checkin) => checkin.date !== date);
+
+  localStorage.setItem("checkins", JSON.stringify(updatedCheckins));
+  localStorage.removeItem(`checkin-${date}`);
+
+  return updatedCheckins;
+}
+
+export function clearCheckinHistory() {
+  const checkinKeys = Object.keys(localStorage).filter(
+    (key) => key === "checkins" || key.startsWith("checkin-"),
+  );
+
+  checkinKeys.forEach((key) => localStorage.removeItem(key));
+}

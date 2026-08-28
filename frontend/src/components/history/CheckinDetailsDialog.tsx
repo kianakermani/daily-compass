@@ -15,10 +15,10 @@ import {
 } from "lucide-react";
 
 import { moodOptions } from "../../constants/moodOptions";
-import { 
-  physicalStateOptions, 
-  mentalStateOptions, 
-  sleepOptions 
+import {
+  physicalStateOptions,
+  mentalStateOptions,
+  sleepOptions,
 } from "../../constants/stateOptions";
 import type { CheckinData } from "../../types";
 import { habitLabels, formatCheckinDate } from "../../utils/checkinDetails";
@@ -144,7 +144,7 @@ export default function CheckinDetailsDialog({
               type="button"
               aria-label="Close check-in details"
               onClick={onClose}
-              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-slate-400 transition hover:bg-slate-100 hover:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+              className="flex h-8 w-8 shrink-0 items-center cursor-pointer justify-center rounded-full text-slate-400 transition hover:bg-slate-100 hover:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-200"
             >
               <X className="h-5 w-5" />
             </button>
@@ -180,12 +180,14 @@ export default function CheckinDetailsDialog({
               <div className="space-y-3">
                 {/* Physical States */}
                 <div>
-                  <h5 className="text-xs font-medium text-slate-400 mb-2">Physical</h5>
+                  <h5 className="text-xs font-medium text-slate-400 mb-2">
+                    Physical
+                  </h5>
                   <div className="flex flex-wrap gap-1.5">
                     {checkin.physicalStates.length > 0 ? (
                       checkin.physicalStates.map((state) => {
                         const stateOption = physicalStateOptions.find(
-                          (s) => s.value === state
+                          (s) => s.value === state,
                         );
                         const Icon = stateOption?.icon ?? Meh;
 
@@ -207,12 +209,14 @@ export default function CheckinDetailsDialog({
 
                 {/* Mental States */}
                 <div>
-                  <h5 className="text-xs font-medium text-slate-400 mb-2">Mental</h5>
+                  <h5 className="text-xs font-medium text-slate-400 mb-2">
+                    Mental
+                  </h5>
                   <div className="flex flex-wrap gap-1.5">
                     {checkin.mentalStates.length > 0 ? (
                       checkin.mentalStates.map((state) => {
                         const stateOption = mentalStateOptions.find(
-                          (s) => s.value === state
+                          (s) => s.value === state,
                         );
                         const Icon = stateOption?.icon ?? Meh;
 
@@ -234,15 +238,20 @@ export default function CheckinDetailsDialog({
 
                 {/* Sleep */}
                 <div>
-                  <h5 className="text-xs font-medium text-slate-400 mb-2">Sleep</h5>
+                  <h5 className="text-xs font-medium text-slate-400 mb-2">
+                    Sleep
+                  </h5>
                   <div className="flex flex-wrap gap-1.5">
                     {checkin.sleepQuality ? (
                       (() => {
                         const sleepOption = sleepOptions.find(
-                          (s) => s.value === checkin.sleepQuality
+                          (s) => s.value === checkin.sleepQuality,
                         );
                         const Icon = sleepOption?.icon ?? Meh;
-                        const colorClass = checkin.sleepQuality === "good" ? "bg-green-50 text-green-700" : "bg-red-50 text-red-700";
+                        const colorClass =
+                          checkin.sleepQuality === "good"
+                            ? "bg-green-50 text-green-700"
+                            : "bg-red-50 text-red-700";
 
                         return (
                           <span
