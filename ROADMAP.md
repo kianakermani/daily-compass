@@ -13,7 +13,7 @@
 - [x] Optimize UI rendering performance
 - [x] Unsaved changes warning
 - [x] Refactor Mood & Physical/Mental State section (Replace Yes/No toggles with Chip Tags for physical states, balance Main Mood options)
-- [ ] Optimize Habits section (Reduce default list to 8 key habits, add Progress Bar & "Show More" / customization option)
+- [x] Enhance Habits list (8 active habits cap, progress bar & Customize Habits modal)
 
 ---
 
