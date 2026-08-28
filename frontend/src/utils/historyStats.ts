@@ -24,7 +24,7 @@ export function getHistoryStats(checkins: CheckinData[]) {
         }),
         mood: c?.moodScore || 0,
       };
-    } catch (error) {
+    } catch {
       return { date: "Error", mood: c?.moodScore || 0 };
     }
   });

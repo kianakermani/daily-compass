@@ -61,6 +61,25 @@ export default function TodayCheckin() {
     setIsDirty(true);
   };
 
+  const handleHabitChange = (
+    habit: keyof CheckinData["habits"],
+    checked: boolean,
+  ) => {
+    setData((prev) => ({
+      ...prev,
+      habits: {
+        ...prev.habits,
+        [habit]: checked,
+      },
+    }));
+    setIsDirty(true);
+  };
+
+  const handleHabitsChange = (habits: CheckinData["habits"]) => {
+    setData((prev) => ({ ...prev, habits }));
+    setIsDirty(true);
+  };
+
   return (
     <div className="space-y-6">
       <div>
@@ -106,14 +125,8 @@ export default function TodayCheckin() {
       {/* Habits */}
       <HabitsSection
         habits={data.habits}
-        onHabitChange={(habit, checked) =>
-          updateData({
-            habits: {
-              ...data.habits,
-              [habit]: checked,
-            },
-          })
-        }
+        onHabitChange={handleHabitChange}
+        onHabitsChange={handleHabitsChange}
       />
 
       <SpendingSection

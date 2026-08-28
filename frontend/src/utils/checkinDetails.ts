@@ -15,6 +15,9 @@ export const habitLabels: Record<keyof CheckinData["habits"], string> = {
   reading: "Reading",
   hobby: "Hobby",
   sleepEarly: "Sleep early",
+  journaling: "Journaling",
+  noScreenTime: "No screen time",
+  stretching: "Stretching",
 };
 
 export function formatCheckinDate(date: string) {

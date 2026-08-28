@@ -1,5 +1,45 @@
 import type { CheckinData } from "../types";
 
+const defaultHabits: CheckinData["habits"] = {
+  water: false,
+  healthyFood: false,
+  exercise: false,
+  walking: false,
+  dancing: false,
+  shower: false,
+  skincare: false,
+  selfCare: false,
+  meditation: false,
+  quietTime: false,
+  rest: false,
+  reading: false,
+  hobby: false,
+  sleepEarly: false,
+  journaling: false,
+  noScreenTime: false,
+  stretching: false,
+};
+
+function normalizeHabits(habits: unknown): CheckinData["habits"] {
+  return {
+    ...defaultHabits,
+    ...(habits && typeof habits === "object" ? habits : {}),
+  };
+}
+
+type StoredCheckinData = Omit<
+  Partial<CheckinData>,
+  "habits" | "mainMood" | "physicalStates" | "mentalStates" | "sleepQuality"
+> & {
+  habits?: unknown;
+  mainMood?: unknown;
+  physicalStates?: unknown;
+  mentalStates?: unknown;
+  sleepQuality?: unknown;
+  isStressed?: unknown;
+  isTired?: unknown;
+};
+
 export function saveCheckin(data: CheckinData) {
   const checkins: CheckinData[] = JSON.parse(
     localStorage.getItem("checkins") || "[]",
@@ -33,15 +73,23 @@ export function loadTodayCheckin(today: string): CheckinData | null {
   }
 }
 
-function migrateOldDataFormat(data: any): CheckinData {
+function migrateOldDataFormat(data: StoredCheckinData): CheckinData {
+  const habits = normalizeHabits(data.habits);
+
   // If data already has new fields, return as is
   if (data.physicalStates !== undefined && data.mentalStates !== undefined && data.sleepQuality !== undefined) {
-    return data;
+    return { ...data, habits } as CheckinData;
   }
 
   // Migrate from old format to new format
-  const migrated: any = {
+  const migrated: StoredCheckinData & {
+    habits: CheckinData["habits"];
+    physicalStates: string[];
+    mentalStates: string[];
+    sleepQuality: CheckinData["sleepQuality"];
+  } = {
     ...data,
+    habits,
     physicalStates: [],
     mentalStates: [],
     sleepQuality: null,
@@ -72,7 +120,9 @@ function migrateOldDataFormat(data: any): CheckinData {
   if (migrated.mainMood && Array.isArray(migrated.mainMood)) {
     const energeticIndex = migrated.mainMood.indexOf("energetic");
     if (energeticIndex !== -1) {
-      migrated.mainMood = migrated.mainMood.filter((mood: string) => mood !== "energetic");
+      migrated.mainMood = migrated.mainMood.filter(
+        (mood: unknown) => mood !== "energetic",
+      );
       if (!migrated.physicalStates.includes("energized")) {
         migrated.physicalStates.push("energized");
       }

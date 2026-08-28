@@ -1,44 +1,65 @@
 import type { CheckinData } from "../types";
 
-function validateAndFixCheckin(checkin: any): CheckinData | null {
+const defaultHabits: CheckinData["habits"] = {
+  water: false,
+  healthyFood: false,
+  exercise: false,
+  walking: false,
+  dancing: false,
+  shower: false,
+  skincare: false,
+  selfCare: false,
+  meditation: false,
+  quietTime: false,
+  rest: false,
+  reading: false,
+  hobby: false,
+  sleepEarly: false,
+  journaling: false,
+  noScreenTime: false,
+  stretching: false,
+};
+
+function normalizeHabits(habits: unknown): CheckinData["habits"] {
+  return {
+    ...defaultHabits,
+    ...(habits && typeof habits === "object" ? habits : {}),
+  };
+}
+
+function validateAndFixCheckin(checkin: unknown): CheckinData | null {
   if (!checkin || typeof checkin !== "object") {
     return null;
   }
 
+  const savedCheckin = checkin as Partial<CheckinData> & { habits?: unknown };
+
   // Ensure all required fields exist with defaults
   return {
-    date: checkin.date || new Date().toISOString().split('T')[0],
-    moodScore: typeof checkin.moodScore === "number" ? checkin.moodScore : 5,
-    mainMood: Array.isArray(checkin.mainMood) ? checkin.mainMood : [],
-    physicalStates: Array.isArray(checkin.physicalStates) ? checkin.physicalStates : [],
-    mentalStates: Array.isArray(checkin.mentalStates) ? checkin.mentalStates : [],
-    sleepQuality: checkin.sleepQuality || null,
-    habits: checkin.habits || {
-      water: false,
-      healthyFood: false,
-      exercise: false,
-      walking: false,
-      dancing: false,
-      shower: false,
-      skincare: false,
-      selfCare: false,
-      meditation: false,
-      quietTime: false,
-      rest: false,
-      reading: false,
-      hobby: false,
-      sleepEarly: false,
-    },
-    spending: checkin.spending || {
+    date: savedCheckin.date || new Date().toISOString().split("T")[0],
+    moodScore:
+      typeof savedCheckin.moodScore === "number" ? savedCheckin.moodScore : 5,
+    mainMood: Array.isArray(savedCheckin.mainMood)
+      ? savedCheckin.mainMood
+      : [],
+    physicalStates: Array.isArray(savedCheckin.physicalStates)
+      ? savedCheckin.physicalStates
+      : [],
+    mentalStates: Array.isArray(savedCheckin.mentalStates)
+      ? savedCheckin.mentalStates
+      : [],
+    sleepQuality: savedCheckin.sleepQuality || null,
+    habits: normalizeHabits(savedCheckin.habits),
+    spending: savedCheckin.spending || {
       amount: "0",
       currency: "USD",
       type: [],
       categories: "",
       financialMood: "",
     },
-    bestPart: checkin.bestPart || "",
-    worstPart: checkin.worstPart || "",
-    notes: checkin.notes || "",
+    bestPart: savedCheckin.bestPart || "",
+    worstPart: savedCheckin.worstPart || "",
+    notes: savedCheckin.notes || "",
   };
 }
 
@@ -67,7 +88,7 @@ export function loadCheckins(): CheckinData[] {
           const dateA = a?.date ? new Date(a.date).getTime() : 0;
           const dateB = b?.date ? new Date(b.date).getTime() : 0;
           return dateB - dateA;
-        } catch (error) {
+        } catch {
           return 0;
         }
       },

@@ -35,6 +35,9 @@ export interface CheckinData {
     reading: boolean;
     hobby: boolean;
     sleepEarly: boolean;
+    journaling: boolean;
+    noScreenTime: boolean;
+    stretching: boolean;
   };
   spending: {
     amount: string;

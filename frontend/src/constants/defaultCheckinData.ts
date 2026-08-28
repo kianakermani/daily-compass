@@ -23,6 +23,9 @@ export function createDefaultCheckinData(date: string): CheckinData {
       reading: false,
       hobby: false,
       sleepEarly: false,
+      journaling: false,
+      noScreenTime: false,
+      stretching: false,
     },
     spending: {
       amount: "",
