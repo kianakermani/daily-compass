@@ -23,9 +23,7 @@
 - [x] View Check-in Details in Modal
 - [x] Calendar view and streak part
 - [x] Calendar year/month picker navigation (allow direct year/month selection instead of only prev/next buttons)
-- [ ] Edit Check-in
-- [ ] Delete Check-in
-- [ ] Search and Filters
+- [x] Delete Check-in and clear history of check-ins
 - [ ] More charts
 
 ---
