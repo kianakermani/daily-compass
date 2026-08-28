@@ -64,7 +64,7 @@ export default function History() {
             type="button"
             onClick={() => setIsClearHistoryConfirmOpen(true)}
             disabled={checkins.length === 0}
-            className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-red-100 bg-white px-3 py-2 text-sm font-medium text-red-500 transition-colors hover:border-red-200 hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
+            className="inline-flex w-full sm:w-auto cursor-pointer items-center justify-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-slate-400 hover:text-red-500 hover:bg-red-50/50 rounded-lg transition-colors disabled:cursor-not-allowed disabled:opacity-50"
           >
             <Trash2 className="h-4 w-4" />
             Clear All History
