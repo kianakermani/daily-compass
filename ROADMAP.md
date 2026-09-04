@@ -24,7 +24,7 @@
 - [x] Calendar view and streak part
 - [x] Calendar year/month picker navigation (allow direct year/month selection instead of only prev/next buttons)
 - [x] Delete Check-in and clear history of check-ins
-- [ ] More charts
+- [x] Better Chart
 
 ---
 
