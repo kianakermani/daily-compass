@@ -73,11 +73,18 @@ const MOOD_LEVELS: MoodLevel[] = [
   },
 ];
 
+// FIX #1: The old version used MOOD_LEVELS.find() against integer ranges
+// (1-3 / 4-6 / 7-9 / 10-10). Any non-integer score (e.g. 7.5, 9.3, an
+// average of several moods) fell into a gap between ranges, .find()
+// returned undefined, and the "|| MOOD_LEVELS[0]" fallback silently
+// showed "Low" even for a high score. This version uses continuous
+// threshold checks so every possible score (including decimals) maps
+// to the correct level, with no gaps and no incorrect fallback.
 const getMoodLevel = (score: number): MoodLevel => {
-  return (
-    MOOD_LEVELS.find((level) => score >= level.range[0] && score <= level.range[1]) ||
-    MOOD_LEVELS[0]
-  );
+  if (score >= 9.5) return MOOD_LEVELS[3]; // Excellent
+  if (score >= 7) return MOOD_LEVELS[2]; // Good
+  if (score >= 4) return MOOD_LEVELS[1]; // Neutral
+  return MOOD_LEVELS[0]; // Low
 };
 
 const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
@@ -100,7 +107,11 @@ const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 10, scale: 0.95 }}
-      animate={isVisible ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 10, scale: 0.95 }}
+      animate={
+        isVisible
+          ? { opacity: 1, y: 0, scale: 1 }
+          : { opacity: 0, y: 10, scale: 0.95 }
+      }
       transition={{ duration: 0.2, ease: "easeOut" }}
       className="bg-white/95 backdrop-blur-lg px-4 py-3 rounded-xl shadow-2xl border border-slate-100 text-sm font-medium relative z-50"
       style={{ minWidth: "200px" }}
@@ -116,7 +127,9 @@ const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
         <div>
           <p className="text-xs text-slate-400 mb-1">Mood Score</p>
           <div className="flex items-center">
-            <span className="text-2xl font-bold text-slate-800 mr-2">{moodScore}</span>
+            <span className="text-2xl font-bold text-slate-800 mr-2">
+              {moodScore}
+            </span>
             <span className="text-slate-400 text-sm">/10</span>
           </div>
         </div>
@@ -124,13 +137,18 @@ const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
           <p className="text-xs text-slate-400 mb-1">Status</p>
           <span
             className="px-2 py-1 rounded-full text-xs font-semibold"
-            style={{ backgroundColor: `${moodLevel.color}15`, color: moodLevel.color }}
+            style={{
+              backgroundColor: `${moodLevel.color}15`,
+              color: moodLevel.color,
+            }}
           >
             {moodLevel.label}
           </span>
         </div>
       </div>
-      <p className="text-xs text-slate-500 mt-2 italic">"{moodLevel.description}"</p>
+      <p className="text-xs text-slate-500 mt-2 italic">
+        "{moodLevel.description}"
+      </p>
     </motion.div>
   );
 };
@@ -144,8 +162,12 @@ const MoodLegend = () => {
             className="w-3 h-3 rounded-full mr-2"
             style={{ backgroundColor: level.color }}
           />
-          <span className="text-xs text-slate-600 font-medium">{level.label}</span>
-          <span className="text-xs text-slate-400 ml-1">({level.range[0]}-{level.range[1]})</span>
+          <span className="text-xs text-slate-600 font-medium">
+            {level.label}
+          </span>
+          <span className="text-xs text-slate-400 ml-1">
+            ({level.range[0]}-{level.range[1]})
+          </span>
         </div>
       ))}
     </div>
@@ -159,10 +181,10 @@ export default function MoodChart({ chartData }: MoodChartProps) {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
-    
+
     checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   if (chartData.length === 0) {
@@ -188,10 +210,30 @@ export default function MoodChart({ chartData }: MoodChartProps) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
+      {/* FIX #2: on mobile, tapping a data point/SVG focuses the Recharts
+          <svg> element (it ships with a default tabIndex for a11y), and
+          the browser then draws its default focus outline/tap-highlight,
+          which shows up as an ugly black border. The style block below
+          strips that outline and disables the tap highlight, only for
+          the chart's own elements — it does not touch focus styles
+          anywhere else on the page. */}
+      <style>{`
+        .mood-chart-wrapper .recharts-wrapper,
+        .mood-chart-wrapper .recharts-surface,
+        .mood-chart-wrapper svg,
+        .mood-chart-wrapper *:focus,
+        .mood-chart-wrapper *:focus-visible {
+          outline: none !important;
+          -webkit-tap-highlight-color: transparent;
+        }
+      `}</style>
+
       <Card className="p-6 bg-gradient-to-br from-slate-50/90 to-white/90 border border-slate-100 shadow-lg rounded-2xl hover:shadow-xl transition-shadow duration-300">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6">
           <div>
-            <h3 className="text-sm font-semibold text-slate-800 tracking-tight">Mood Insights</h3>
+            <h3 className="text-sm font-semibold text-slate-800 tracking-tight">
+              Mood Insights
+            </h3>
             <p className="text-xs text-slate-500 mt-1">
               Track your emotional journey over time
             </p>
@@ -206,143 +248,172 @@ export default function MoodChart({ chartData }: MoodChartProps) {
 
         <MoodLegend />
 
-        <ResponsiveContainer width="100%" height={chartHeight}>
-          <AreaChart
-            data={chartData}
-            margin={{ top: 10, right: 10, left: marginLeft, bottom: 0 }}
-          >
-            <defs>
-              {/* Mood level gradient definitions */}
-              {MOOD_LEVELS.map((level) => (
-                <linearGradient
-                  key={level.label}
-                  id={`gradient-${level.label}`}
-                  x1="0"
-                  y1="0"
-                  x2="0"
-                  y2="1"
-                >
-                  <stop offset="0%" stopColor={level.gradientStart} stopOpacity={0.3} />
-                  <stop offset="100%" stopColor={level.gradientEnd} stopOpacity={0.05} />
+        <div
+          className="mood-chart-wrapper"
+          style={{ WebkitTapHighlightColor: "transparent" }}
+        >
+          <ResponsiveContainer width="100%" height={chartHeight}>
+            <AreaChart
+              data={chartData}
+              margin={{ top: 10, right: 10, left: marginLeft, bottom: 0 }}
+              tabIndex={-1}
+            >
+              <defs>
+                {/* Mood level gradient definitions */}
+                {MOOD_LEVELS.map((level) => (
+                  <linearGradient
+                    key={level.label}
+                    id={`gradient-${level.label}`}
+                    x1="0"
+                    y1="0"
+                    x2="0"
+                    y2="1"
+                  >
+                    <stop
+                      offset="0%"
+                      stopColor={level.gradientStart}
+                      stopOpacity={0.3}
+                    />
+                    <stop
+                      offset="100%"
+                      stopColor={level.gradientEnd}
+                      stopOpacity={0.05}
+                    />
+                  </linearGradient>
+                ))}
+              </defs>
+
+              {/* Subtle grid lines */}
+              <CartesianGrid
+                vertical={false}
+                stroke="#e2e8f0"
+                strokeDasharray="3 3"
+                strokeOpacity={0.5}
+              />
+
+              {/* Mood level reference areas */}
+              <ReferenceArea
+                y1={1}
+                y2={3}
+                fill="#fee2e2"
+                fillOpacity={0.2}
+                stroke="none"
+              />
+              <ReferenceArea
+                y1={4}
+                y2={6}
+                fill="#fef3c7"
+                fillOpacity={0.2}
+                stroke="none"
+              />
+              <ReferenceArea
+                y1={7}
+                y2={10}
+                fill="#d1fae5"
+                fillOpacity={0.2}
+                stroke="none"
+              />
+
+              {/* Mood level reference lines */}
+              <ReferenceLine
+                y={3}
+                stroke="#fca5a5"
+                strokeWidth={1}
+                strokeDasharray="3 3"
+              />
+              <ReferenceLine
+                y={6}
+                stroke="#fbbf24"
+                strokeWidth={1}
+                strokeDasharray="3 3"
+              />
+              <ReferenceLine
+                y={9}
+                stroke="#34d399"
+                strokeWidth={1}
+                strokeDasharray="3 3"
+              />
+
+              <XAxis
+                dataKey="date"
+                axisLine={false}
+                tickLine={false}
+                tick={{
+                  fill: "#64748b",
+                  fontSize: isMobile ? 10 : 11,
+                  fontWeight: 500,
+                }}
+                dy={10}
+                interval={isMobile ? "preserveEnd" : 0}
+              />
+
+              <YAxis
+                domain={[1, 10]}
+                axisLine={false}
+                tickLine={false}
+                tick={{
+                  fill: "#64748b",
+                  fontSize: isMobile ? 10 : 11,
+                  fontWeight: 500,
+                }}
+                ticks={[1, 3, 6, 9, 10]}
+              />
+
+              <Tooltip
+                content={<CustomTooltip />}
+                cursor={{
+                  stroke: "#cbd5e1",
+                  strokeWidth: 1.5,
+                  strokeDasharray: "4 4",
+                }}
+              />
+
+              {/* Main area with dynamic coloring based on mood level */}
+              <Area
+                type="monotone"
+                dataKey="mood"
+                stroke="url(#linearGradient)"
+                strokeWidth={3}
+                fillOpacity={0.8}
+                fill="url(#main-gradient)"
+                dot={(props) => {
+                  const moodLevel = getMoodLevel(props.payload.mood);
+                  return (
+                    <circle
+                      cx={props.cx}
+                      cy={props.cy}
+                      r={4}
+                      fill={moodLevel.color}
+                      stroke="#ffffff"
+                      strokeWidth={2}
+                      className="transition-all duration-200 hover:r-6"
+                    />
+                  );
+                }}
+                activeDot={{
+                  r: 8,
+                  fill: "#ffffff",
+                  stroke: "#6366f1",
+                  strokeWidth: 3,
+                  className: "transition-all duration-200",
+                }}
+              />
+
+              {/* Smooth gradient line */}
+              <defs>
+                <linearGradient id="linearGradient" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0%" stopColor="#6366f1" />
+                  <stop offset="50%" stopColor="#8b5cf6" />
+                  <stop offset="100%" stopColor="#ec4899" />
                 </linearGradient>
-              ))}
-            </defs>
-
-            {/* Subtle grid lines */}
-            <CartesianGrid
-              vertical={false}
-              stroke="#e2e8f0"
-              strokeDasharray="3 3"
-              strokeOpacity={0.5}
-            />
-
-            {/* Mood level reference areas */}
-            <ReferenceArea
-              y1={1}
-              y2={3}
-              fill="#fee2e2"
-              fillOpacity={0.2}
-              stroke="none"
-            />
-            <ReferenceArea
-              y1={4}
-              y2={6}
-              fill="#fef3c7"
-              fillOpacity={0.2}
-              stroke="none"
-            />
-            <ReferenceArea
-              y1={7}
-              y2={10}
-              fill="#d1fae5"
-              fillOpacity={0.2}
-              stroke="none"
-            />
-
-            {/* Mood level reference lines */}
-            <ReferenceLine y={3} stroke="#fca5a5" strokeWidth={1} strokeDasharray="3 3" />
-            <ReferenceLine y={6} stroke="#fbbf24" strokeWidth={1} strokeDasharray="3 3" />
-            <ReferenceLine y={9} stroke="#34d399" strokeWidth={1} strokeDasharray="3 3" />
-
-            <XAxis
-              dataKey="date"
-              axisLine={false}
-              tickLine={false}
-              tick={{
-                fill: "#64748b",
-                fontSize: isMobile ? 10 : 11,
-                fontWeight: 500,
-              }}
-              dy={10}
-              interval={isMobile ? "preserveEnd" : 0}
-            />
-
-            <YAxis
-              domain={[1, 10]}
-              axisLine={false}
-              tickLine={false}
-              tick={{
-                fill: "#64748b",
-                fontSize: isMobile ? 10 : 11,
-                fontWeight: 500,
-              }}
-              ticks={[1, 3, 6, 9, 10]}
-            />
-
-            <Tooltip
-              content={<CustomTooltip />}
-              cursor={{
-                stroke: "#cbd5e1",
-                strokeWidth: 1.5,
-                strokeDasharray: "4 4",
-              }}
-            />
-
-            {/* Main area with dynamic coloring based on mood level */}
-            <Area
-              type="monotone"
-              dataKey="mood"
-              stroke="url(#linearGradient)"
-              strokeWidth={3}
-              fillOpacity={0.8}
-              fill="url(#main-gradient)"
-              dot={(props) => {
-                const moodLevel = getMoodLevel(props.payload.mood);
-                return (
-                  <circle
-                    cx={props.cx}
-                    cy={props.cy}
-                    r={4}
-                    fill={moodLevel.color}
-                    stroke="#ffffff"
-                    strokeWidth={2}
-                    className="transition-all duration-200 hover:r-6"
-                  />
-                );
-              }}
-              activeDot={{
-                r: 8,
-                fill: "#ffffff",
-                stroke: "#6366f1",
-                strokeWidth: 3,
-                className: "transition-all duration-200",
-              }}
-            />
-
-            {/* Smooth gradient line */}
-            <defs>
-              <linearGradient id="linearGradient" x1="0" x2="0" y1="0" y2="1">
-                <stop offset="0%" stopColor="#6366f1" />
-                <stop offset="50%" stopColor="#8b5cf6" />
-                <stop offset="100%" stopColor="#ec4899" />
-              </linearGradient>
-              <linearGradient id="main-gradient" x1="0" x2="0" y1="0" y2="1">
-                <stop offset="5%" stopColor="#6366f1" stopOpacity={0.4} />
-                <stop offset="95%" stopColor="#6366f1" stopOpacity={0.05} />
-              </linearGradient>
-            </defs>
-          </AreaChart>
-        </ResponsiveContainer>
+                <linearGradient id="main-gradient" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="5%" stopColor="#6366f1" stopOpacity={0.4} />
+                  <stop offset="95%" stopColor="#6366f1" stopOpacity={0.05} />
+                </linearGradient>
+              </defs>
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
 
         <div className="mt-4 pt-4 border-t border-slate-100">
           <div className="flex flex-wrap items-center justify-between text-xs text-slate-500">

@@ -14,7 +14,7 @@ export function getHistoryStats(checkins: CheckinData[]) {
       
       const date = new Date(dateStr + "T12:00:00");
       if (isNaN(date.getTime())) {
-        return { date: "Invalid date", mood: c?.moodScore || 0 };
+        return { date: "Invalid date", mood: c?.moodScore ?? 0 };
       }
       
       return {
@@ -22,10 +22,10 @@ export function getHistoryStats(checkins: CheckinData[]) {
           month: "short",
           day: "numeric",
         }),
-        mood: c?.moodScore || 0,
+        mood: c?.moodScore ?? 0,
       };
     } catch {
-      return { date: "Error", mood: c?.moodScore || 0 };
+      return { date: "Error", mood: c?.moodScore ?? 0 };
     }
   });
 
