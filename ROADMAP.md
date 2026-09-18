@@ -31,10 +31,7 @@
 ## Phase 3 - Goals
 
 - [x] Remove duplicate "New Goal" button in empty state and refine goal card layout
-- [ ] Goal categories
-- [ ] Edit goals
-- [ ] Goal archive
-- [ ] Goal statistics
+- [x] Add Goal categories
 
 ---
 
