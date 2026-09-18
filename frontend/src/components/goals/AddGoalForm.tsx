@@ -4,10 +4,20 @@ import Input from "../Input";
 import Label from "../Label";
 import Textarea from "../Textarea";
 
+const GOAL_CATEGORIES = [
+  { id: "personal", label: "Personal", icon: "🎯" },
+  { id: "hobbies", label: "Hobbies & Fun", icon: "🎨" },
+  { id: "health", label: "Health & Fitness", icon: "🌿" },
+  { id: "learning", label: "Learning", icon: "📚" },
+  { id: "career", label: "Career", icon: "💼" },
+  { id: "finance", label: "Finance", icon: "💰" },
+];
+
 interface NewGoal {
   title: string;
   description: string;
   targetDate: string;
+  category: string;
 }
 
 interface AddGoalFormProps {
@@ -38,6 +48,34 @@ export default function AddGoalForm({
             value={newGoal.title}
             onChange={(e) => setNewGoal({ ...newGoal, title: e.target.value })}
           />
+        </div>
+        <div>
+          <Label className="text-xs text-slate-500 mb-2 block font-normal">
+            Category
+          </Label>
+          <div className="flex flex-wrap gap-2">
+            {GOAL_CATEGORIES.map((category) => {
+              const isSelected = newGoal.category === category.id;
+              return (
+                <button
+                  key={category.id}
+                  type="button"
+                  onClick={() =>
+                    setNewGoal({ ...newGoal, category: category.id })
+                  }
+                  aria-pressed={isSelected}
+                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-colors cursor-pointer ${
+                    isSelected
+                      ? "bg-indigo-600 text-white"
+                      : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                  }`}
+                >
+                  <span>{category.icon}</span>
+                  {category.label}
+                </button>
+              );
+            })}
+          </div>
         </div>
         <div>
           <Label className="text-xs text-slate-500 mb-2 block font-normal">

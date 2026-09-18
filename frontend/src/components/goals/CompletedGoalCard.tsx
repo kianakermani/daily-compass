@@ -46,7 +46,7 @@ export default function CompletedGoalCard({
             onClick={() => setIsDeleteConfirmOpen(true)}
             title="Delete goal"
             aria-label="Delete goal"
-            className="text-slate-300 hover:text-red-400 transition-colors p-1"
+            className="text-slate-300 cursor-pointer hover:text-red-400 transition-colors p-1"
           >
             <Trash2 className="w-4 h-4" />
           </button>

@@ -17,6 +17,7 @@ export default function Goals() {
     title: "",
     description: "",
     targetDate: "",
+    category: "personal",
   });
 
   useEffect(() => {
@@ -34,18 +35,22 @@ export default function Goals() {
       toast.error("Please enter a goal title");
       return;
     }
-    persist([
-      ...goals,
-      {
-        id: Date.now().toString(),
-        title: newGoal.title,
-        description: newGoal.description,
-        targetDate: newGoal.targetDate,
-        progress: 0,
-        completed: false,
-      },
-    ]);
-    setNewGoal({ title: "", description: "", targetDate: "" });
+    const goal: Goal & { category?: string } = {
+      id: Date.now().toString(),
+      title: newGoal.title,
+      description: newGoal.description,
+      targetDate: newGoal.targetDate,
+      category: newGoal.category,
+      progress: 0,
+      completed: false,
+    };
+    persist([...goals, goal]);
+    setNewGoal({
+      title: "",
+      description: "",
+      targetDate: "",
+      category: "personal",
+    });
     setIsAdding(false);
     toast.success("Goal added!");
   };

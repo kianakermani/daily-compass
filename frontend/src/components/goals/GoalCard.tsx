@@ -6,8 +6,25 @@ import Progress from "../Progress";
 import ConfirmDialog from "../history/ConfirmDialog";
 import type { Goal } from "../../types";
 
+const GOAL_CATEGORIES = [
+  { id: "personal", label: "Personal", icon: "🎯" },
+  { id: "hobbies", label: "Hobbies & Fun", icon: "🎨" },
+  { id: "health", label: "Health & Fitness", icon: "🌿" },
+  { id: "learning", label: "Learning", icon: "📚" },
+  { id: "career", label: "Career", icon: "💼" },
+  { id: "finance", label: "Finance", icon: "💰" },
+];
+
+function getGoalCategory(id: string | undefined) {
+  return GOAL_CATEGORIES.find((c) => c.id === id) ?? GOAL_CATEGORIES[0];
+}
+
+// Extends the shared Goal type locally with an optional category,
+// so this module doesn't require editing the global types.ts file.
+type GoalWithCategory = Goal & { category?: string };
+
 interface GoalCardProps {
-  goal: Goal;
+  goal: GoalWithCategory;
   onDelete: (id: string) => void;
   onToggle: (id: string) => void;
   onProgress: (id: string, progress: number) => void;
@@ -36,6 +53,7 @@ export default function GoalCard({
           : "Overdue";
 
   const isOverdue = days !== null && days < 0;
+  const category = getGoalCategory(goal.category);
 
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
 
@@ -47,6 +65,10 @@ export default function GoalCard({
             <h4 className="text-base font-medium text-slate-800">
               {goal.title}
             </h4>
+            <span className="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-600 whitespace-nowrap">
+              <span>{category.icon}</span>
+              {category.label}
+            </span>
             {dueLabel && (
               <span
                 className={`inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full whitespace-nowrap ${
@@ -60,7 +82,9 @@ export default function GoalCard({
             )}
           </div>
           {goal.description && (
-            <p className="text-sm text-slate-500">{goal.description}</p>
+            <p className="text-sm text-slate-500 descriptionGoal">
+              {goal.description}
+            </p>
           )}
         </div>
         <button

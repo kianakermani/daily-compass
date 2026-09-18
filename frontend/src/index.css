@@ -134,3 +134,7 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+.descriptionGoal {
+  padding-top: 10px;
+}
