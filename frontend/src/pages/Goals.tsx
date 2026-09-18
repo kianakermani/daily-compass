@@ -78,7 +78,10 @@ export default function Goals() {
 
   return (
     <div className="space-y-6">
-      <GoalsHeader onToggleAdd={() => setIsAdding(!isAdding)} />
+      <GoalsHeader
+        onToggleAdd={() => setIsAdding(!isAdding)}
+        hasGoals={goals.length > 0}
+      />
 
       {isAdding && (
         <AddGoalForm

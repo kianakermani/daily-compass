@@ -15,12 +15,12 @@ export default function EmptyGoals({ onCreateClick }: EmptyGoalsProps) {
       <h3 className="text-base font-medium text-slate-700 mb-2">
         No goals yet
       </h3>
-      <p className="text-sm text-slate-400 mb-6">
-        Start by creating your first goal
+      <p className="text-sm text-slate-400 mb-6 max-w-xs mx-auto">
+        Set a goal and track your progress toward it, one step at a time.
       </p>
       <Button onClick={onCreateClick}>
         <Plus className="w-4 h-4 mr-1.5" />
-        Create Goal
+        Create First Goal
       </Button>
     </Card>
   );

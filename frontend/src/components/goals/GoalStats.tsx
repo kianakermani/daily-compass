@@ -1,4 +1,4 @@
-import { CheckCircle2, Circle, Target } from "lucide-react";
+import { CheckCircle2, Target, TrendingUp } from "lucide-react";
 import Card from "../Card";
 import type { Goal } from "../../types";
 
@@ -23,7 +23,7 @@ export default function GoalStats({ goals }: GoalStatsProps) {
       value: active.length,
       bg: "bg-orange-100",
       iconColor: "text-orange-600",
-      Icon: Circle,
+      Icon: TrendingUp,
     },
     {
       label: "Completed",
