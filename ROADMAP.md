@@ -35,49 +35,26 @@
 
 ---
 
-## Phase 4 - UX
+## Phase 4 - UX & Refinements
 
-- [ ] Better animations
-- [ ] Empty states
-- [ ] Loading states
-- [ ] Toast improvements
-- [ ] Responsive improvements
+- [x] Empty states
+- [x] Responsive improvements (Mobile-first check)
+- [x] Basic Toast notifications for action feedback
 
 ---
 
-## Phase 5 - Persian Language & Jalali Calendar
+## Phase 5 - Backend Integration
 
-- [ ] Persian language
-- [ ] Solar Hijri (Jalali) calendar support
-- [ ] RTL / LTR support
-- [ ] Language switch
-
----
-
-## Phase 6 - Backend
-
-- [ ] ASP.NET Core API
-- [ ] SQL Server
-- [ ] Authentication
-- [ ] User accounts
-- [ ] Cloud deployment
+- [ ] ASP.NET Core Web API setup
+- [ ] Database design & Entity Framework Core (SQL Server)
+- [ ] Authentication & JWT Token management
+- [ ] User profiles & Account management
+- [ ] API Integration with Frontend (React Query / TanStack Query)
 
 ---
 
-## Phase 7 - Performance
-
-- [ ] Profile app with React DevTools Profiler
-- [ ] Add React.memo where profiling shows benefit
-- [ ] Memoize expensive callbacks
-- [ ] Lazy load routes/components
-- [ ] Optimize bundle size
-
----
-
-### Personalized Experience
-- [ ] Dynamic greeting based on time (Good morning / Good evening)
-- [ ] Welcome back message
-- [ ] Streak celebration
-- [ ] Motivational messages
-- [ ] Last check-in summary
-- [ ] Daily quote
+## Phase 6 - Personalized Experience & Retention
+- [ ] Dynamic greeting based on time of day (Good morning / Good evening)
+- [ ] Welcome back message & Last check-in summary
+- [ ] Streak celebration & Motivational prompts
+- [ ] Daily quotes widget
